@@ -48,12 +48,6 @@ document.addEventListener('click', (evt) => {
   evt.target.closest('.card') ? createImagePopup(evt) : null
 })
 
-// document.addEventListener('keydown', (evt) => {
-//   if (evt.key === 'Escape') {
-//     closeModal()
-//   }
-// })
-
 function createImagePopup(evt) {
   const popupImage = openImagePopup.querySelector('.popup__image');
   popupImage.src = evt.target.src;
@@ -61,15 +55,21 @@ function createImagePopup(evt) {
   console.log(popupImage)
 }
 
+function closeModal(evt) {
+  const target = evt.target;
+  if (target.closest('.popup__close') ||
+    (!target.closest('.popup__content') &&
+      target !== editProfileBtn) ||
+    evt.key === 'Escape'
+  ) {
+    target.closest('.popup').classList.remove('popup_is-opened')
+    document.removeEventListener('keydown', closeModal)
+    document.removeEventListener('click', closeModal)
+  }
+}
+
 function openModal(evt) {
   evt.classList.add('popup_is-opened')
   document.addEventListener('click', closeModal)
-}
-
-function closeModal(evt) {
-  if (evt.target.closest('.popup__close') || (!evt.target.closest('.popup__content') && evt.target !== editProfileBtn)) {
-    let event = evt.target.closest('.popup');
-    event.classList.remove('popup_is-opened')
-    document.removeEventListener('click', closeModal)
-  }
+  document.addEventListener('keydown', closeModal)
 }
