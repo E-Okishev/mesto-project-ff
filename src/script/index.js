@@ -8,7 +8,17 @@ const editProfileBtn = document.querySelector('.profile__edit-button')
 const editProfilePopup = document.querySelector('.popup_type_edit');
 const createNewCardBtn = document.querySelector('.profile__add-button')
 const createNewCardPopup = document.querySelector('.popup_type_new-card');
-const openImagePopup = document.querySelector('.popup_type_image')
+const openImagePopup = document.querySelector('.popup_type_image');
+
+let currentBtn;
+let currentModal;
+
+const profileTitle = document.querySelector('.profile__title')
+const descriptionProfile = document.querySelector('.profile__description')
+const inputNameProfile = editProfilePopup.querySelector('.popup__input_type_name')
+const inputDescriptionProfile = editProfilePopup.querySelector('.popup__input_type_description')
+const inputNameCard = createNewCardPopup.querySelector('.popup__input_type_card-name');
+const inputUrlCard = createNewCardPopup.querySelector('.popup__input_type_url');
 
 // @todo: Функция создания карточки
 function createCard(link, name, delCard) {
@@ -42,34 +52,52 @@ function renderCard(array, delCard) {
 
 renderCard(initialCards, delCard);
 
+function changeCurrent(btn, modal) {
+  currentBtn = btn
+  currentModal = modal
+}
+
 document.addEventListener('click', (evt) => {
-  evt.target === editProfileBtn ? openModal(editProfilePopup) : null;
-  evt.target === createNewCardBtn ? openModal(createNewCardPopup) : null;
-  evt.target.closest('.card') ? createImagePopup(evt) : null
+  if (evt.target === editProfileBtn) {
+    changeCurrent(editProfileBtn, editProfilePopup)
+    openModal()
+  }
+  if (evt.target === createNewCardBtn) {
+    changeCurrent(createNewCardBtn, createNewCardPopup)
+    openModal()
+  }
+  if (evt.target.closest('.card__image')) {
+    changeCurrent(evt.target, openImagePopup);
+    openModal()
+    createImagePopup(evt.target)
+  }
 })
 
-function createImagePopup(evt) {
+function createImagePopup(image) {
   const popupImage = openImagePopup.querySelector('.popup__image');
-  popupImage.src = evt.target.src;
-  popupImage.alt = evt.target.alt;
-  console.log(popupImage)
+  const popupCaption = openImagePopup.querySelector('.popup__caption');
+  popupImage.src = image.src;
+  popupImage.alt = image.alt;
+  popupCaption.textContent = image.alt;
 }
 
 function closeModal(evt) {
   const target = evt.target;
   if (target.closest('.popup__close') ||
     (!target.closest('.popup__content') &&
-      target !== editProfileBtn) ||
+      target !== currentBtn) ||
     evt.key === 'Escape'
   ) {
-    target.closest('.popup').classList.remove('popup_is-opened')
-    document.removeEventListener('keydown', closeModal)
-    document.removeEventListener('click', closeModal)
+    currentModal.classList.remove('popup_is-opened')
+    document.removeEventListener('click', closeModal);
+    document.removeEventListener('keydown', closeModal);
   }
 }
 
-function openModal(evt) {
-  evt.classList.add('popup_is-opened')
-  document.addEventListener('click', closeModal)
-  document.addEventListener('keydown', closeModal)
+function openModal() {
+  currentModal.classList.add('popup_is-opened')
+  document.addEventListener('click', closeModal);
+  document.addEventListener('keydown', closeModal);
 }
+
+
