@@ -13,17 +13,12 @@ const openImagePopup = document.querySelector('.popup_type_image');
 let currentBtn;
 let currentModal;
 
-const profileTitle = document.querySelector('.profile__title')
-const descriptionProfile = document.querySelector('.profile__description')
-const inputNameProfile = editProfilePopup.querySelector('.popup__input_type_name')
-const inputDescriptionProfile = editProfilePopup.querySelector('.popup__input_type_description')
-const inputNameCard = createNewCardPopup.querySelector('.popup__input_type_card-name');
-const inputUrlCard = createNewCardPopup.querySelector('.popup__input_type_url');
 
 // @todo: Функция создания карточки
-function createCard(link, name, delCard) {
+function createCard(link, name, delCard, isLike) {
   const cardElement = cardTemp.querySelector(".card").cloneNode(true);
   const deleteButton = cardElement.querySelector(".card__delete-button");
+  const likeButton = cardElement.querySelector(".card__like-button");
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
 
@@ -33,6 +28,7 @@ function createCard(link, name, delCard) {
   cardTitle.textContent = name;
 
   deleteButton.addEventListener("click", (event) => delCard(event));
+  likeButton.addEventListener('click', (event) => isLike(event))
 
   return cardElement;
 }
@@ -43,20 +39,26 @@ function delCard(evt) {
   card.remove();
 }
 
+//лайкаем фотографию
+function isLike(evt) {
+  evt.target.classList.toggle('card__like-button_is-active');
+}
+
 // @todo: Вывести карточки на страницу
-function renderCard(array, delCard) {
+function renderCard(array, delCard, isLike) {
   array.forEach(card => {
-    placesList.append(createCard(card["link"], card["name"], delCard));
+    placesList.append(createCard(card["link"], card["name"], delCard, isLike));
   });
 }
 
-renderCard(initialCards, delCard);
+renderCard(initialCards, delCard, isLike);
 
 function changeCurrent(btn, modal) {
   currentBtn = btn
   currentModal = modal
 }
 
+// вешаем обработчик на весь документ и смотрим куда кликаем
 document.addEventListener('click', (evt) => {
   if (evt.target === editProfileBtn) {
     changeCurrent(editProfileBtn, editProfilePopup)
@@ -73,6 +75,7 @@ document.addEventListener('click', (evt) => {
   }
 })
 
+// функция подставляет в открытую модалку фотографию
 function createImagePopup(image) {
   const popupImage = openImagePopup.querySelector('.popup__image');
   const popupCaption = openImagePopup.querySelector('.popup__caption');
@@ -81,9 +84,11 @@ function createImagePopup(image) {
   popupCaption.textContent = image.alt;
 }
 
+// функция закрытия модалки
 function closeModal(evt) {
   const target = evt.target;
   if (target.closest('.popup__close') ||
+    target.closest('.popup__button') ||
     (!target.closest('.popup__content') &&
       target !== currentBtn) ||
     evt.key === 'Escape'
@@ -94,10 +99,25 @@ function closeModal(evt) {
   }
 }
 
+// функция открытия модалки
 function openModal() {
   currentModal.classList.add('popup_is-opened')
   document.addEventListener('click', closeModal);
   document.addEventListener('keydown', closeModal);
 }
 
+// изменение имени профиля
+const formElement = document.querySelector('.popup__form');
+const nameInput = document.querySelector('.popup__input_type_name');
+const jobInput = document.querySelector('.popup__input_type_description');
 
+nameInput.value = document.querySelector('.profile__title').textContent;
+jobInput.value = document.querySelector('.profile__description').textContent;
+
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+  document.querySelector('.profile__title').textContent = nameInput.value;
+  document.querySelector('.profile__description').textContent = jobInput.value;
+}
+
+formElement.addEventListener('submit', handleFormSubmit);
