@@ -10,6 +10,11 @@ const createNewCardBtn = document.querySelector('.profile__add-button')
 const createNewCardPopup = document.querySelector('.popup_type_new-card');
 const openImagePopup = document.querySelector('.popup_type_image');
 
+const popups = document.querySelectorAll('.popup')
+popups.forEach((popup) => {
+  popup.classList.add('popup_is-animated')
+})
+
 let currentBtn;
 let currentModal;
 
