@@ -106,18 +106,32 @@ function openModal() {
   document.addEventListener('keydown', closeModal);
 }
 
-// изменение имени профиля
-const formElement = document.querySelector('.popup__form');
+// изменение имени профиля и добавление новой карточки
+const formElement = document.querySelectorAll('.popup__form');
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
+const cardNameInput = document.querySelector('.popup__input_type_card-name');
+const cardUrlInput = document.querySelector('.popup__input_type_url');
 
 nameInput.value = document.querySelector('.profile__title').textContent;
 jobInput.value = document.querySelector('.profile__description').textContent;
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  document.querySelector('.profile__title').textContent = nameInput.value;
-  document.querySelector('.profile__description').textContent = jobInput.value;
+  let formName = evt.target.getAttribute('name')
+  if (formName === 'edit-profile') {
+    document.querySelector('.profile__title').textContent = nameInput.value;
+    document.querySelector('.profile__description').textContent = jobInput.value;
+  }
+  if (formName === 'new-place') {
+    let newItem = {
+      name: cardNameInput.value,
+      link: cardUrlInput.value
+    }
+    placesList.prepend(createCard(newItem.link, newItem.name, delCard, isLike));
+  }
 }
 
-formElement.addEventListener('submit', handleFormSubmit);
+formElement.forEach((form) => {
+  form.addEventListener('submit', handleFormSubmit)
+})
