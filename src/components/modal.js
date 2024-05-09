@@ -6,24 +6,39 @@ function changeCurrent(btn, modal) {
   currentModal = modal
 }
 
-function closeModal(evt) {
-  const target = evt.target;
-  if (target.closest('.popup__close') ||
-    target.closest('.popup__button') ||
-    (!target.closest('.popup__content') &&
-      target !== currentBtn) ||
-    evt.key === 'Escape'
-  ) {
-    currentModal.classList.remove('popup_is-opened')
-    document.removeEventListener('click', closeModal);
-    document.removeEventListener('keydown', closeModal);
+function closeModal(modal) {
+  modal.classList.toggle('popup_is-opened')
+  document.removeEventListener('keydown', closeModal);
+}
+
+function handleCloseModalByEsc(evt) {
+  if (evt.key === 'Escape') {
+    const openedModal = document.querySelector('.popup_is-opened')
+    closeModal(openedModal)
   }
 }
 
-function openModal() {
-  currentModal.classList.add('popup_is-opened')
-  document.addEventListener('click', closeModal);
-  document.addEventListener('keydown', closeModal);
+function handleCloseModalByOverlay(evt) {
+  if (evt.target === evt.currentTarget) {
+    closeModal(evt.target)
+  }
 }
 
-export {changeCurrent, openModal}
+function setCloseModalByClickListeners(popupList) {
+  popupList.forEach(popup => {
+    // находим кнопку закрытия попапа
+    const closeButton = popup.querySelector('.popup__close')
+    // вешаем обработчик закрытия на кнопку, тут достаточно вызвать closeModal
+    closeButton.addEventListener('click', () => closeModal(popup))
+
+    // вешаем обработчик закрытия на оверлей
+    popup.addEventListener('click', handleCloseModalByOverlay)
+  })
+}
+
+function openModal(modal) {
+  modal.classList.toggle('popup_is-opened')
+  document.addEventListener('keydown', handleCloseModalByEsc);
+}
+
+export {openModal, closeModal, changeCurrent, setCloseModalByClickListeners}
