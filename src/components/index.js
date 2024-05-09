@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import {initialCards} from './cards.js'
-import {createCard, delCard, isLike} from "./card.js";
+import {createCard, delCard, toggleCardLike} from "./card.js";
 import {changeCurrent, openModal} from "./modal.js";
 
 const placesList = document.querySelector(".places__list");
@@ -24,13 +24,23 @@ popups.forEach((popup) => {
 })
 
 // Вывести карточки на страницу
-function renderCard(array, delCard, isLike) {
+function renderCard(array, delCard, likeCard, onImageClick) {
   array.forEach(card => {
-    placesList.append(createCard(card["link"], card["name"], delCard, isLike));
+    placesList.append(createCard(card, delCard, likeCard, onImageClick));
   });
 }
 
-renderCard(initialCards, delCard, isLike);
+renderCard(initialCards, delCard, toggleCardLike, onImageClick);
+
+
+// функция подставляет в открытую модалку фотографию
+function onImageClick(image) {
+  const popupImage = openImagePopup.querySelector('.popup__image');
+  const popupCaption = openImagePopup.querySelector('.popup__caption');
+  popupImage.src = image.src;
+  popupImage.alt = image.alt;
+  popupCaption.textContent = image.alt;
+}
 
 // вешаем обработчик на весь документ, смотрим куда кликаем и открываем нужную модалку
 document.addEventListener('click', (evt) => {
@@ -45,18 +55,8 @@ document.addEventListener('click', (evt) => {
   if (evt.target.closest('.card__image')) {
     changeCurrent(evt.target, openImagePopup);
     openModal()
-    createImagePopup(evt.target)
   }
 })
-
-// функция подставляет в открытую модалку фотографию
-function createImagePopup(image) {
-  const popupImage = openImagePopup.querySelector('.popup__image');
-  const popupCaption = openImagePopup.querySelector('.popup__caption');
-  popupImage.src = image.src;
-  popupImage.alt = image.alt;
-  popupCaption.textContent = image.alt;
-}
 
 // изменение имени профиля и добавление новой карточки
 nameInput.value = document.querySelector('.profile__title').textContent;
@@ -74,7 +74,7 @@ function handleFormSubmit(evt) {
       name: cardNameInput.value,
       link: cardUrlInput.value
     }
-    placesList.prepend(createCard(newItem.link, newItem.name, delCard, isLike));
+    placesList.prepend(createCard(newItem.link, newItem.name, delCard, toggleCardLike));
   }
 }
 
