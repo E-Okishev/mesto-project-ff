@@ -3,82 +3,82 @@ import {initialCards} from './cards.js'
 import {createCard, delCard, toggleCardLike} from "./card.js";
 import {changeCurrent, openModal} from "./modal.js";
 
-const placesList = document.querySelector(".places__list");
+const cardsContainer = document.querySelector(".places__list");
 
 const editProfileBtn = document.querySelector('.profile__edit-button')
 const editProfilePopup = document.querySelector('.popup_type_edit');
 const createNewCardBtn = document.querySelector('.profile__add-button')
 const createNewCardPopup = document.querySelector('.popup_type_new-card');
-const openImagePopup = document.querySelector('.popup_type_image');
+const imagePopup = document.querySelector('.popup_type_image');
 
-const formElement = document.querySelectorAll('.popup__form');
+const formList = document.querySelectorAll('.popup__form');
+const profileTitle = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
 const cardNameInput = document.querySelector('.popup__input_type_card-name');
 const cardUrlInput = document.querySelector('.popup__input_type_url');
 
-// добавляем на все попапы на странице класс для плавного открытия и закрытия
-const popups = document.querySelectorAll('.popup')
-popups.forEach((popup) => {
-  popup.classList.add('popup_is-animated')
-})
+const popupImage = imagePopup.querySelector('.popup__image');
+const popupCaption = imagePopup.querySelector('.popup__caption');
 
 // Вывести карточки на страницу
-function renderCard(array, delCard, likeCard, onImageClick) {
+function renderCards(array, delCard, likeCard, onImageClick) {
   array.forEach(card => {
-    placesList.append(createCard(card, delCard, likeCard, onImageClick));
+    cardsContainer.append(createCard(card, delCard, likeCard, onImageClick));
   });
 }
 
-renderCard(initialCards, delCard, toggleCardLike, onImageClick);
+renderCards(initialCards, delCard, toggleCardLike, onImageClick);
 
 
 // функция подставляет в открытую модалку фотографию
 function onImageClick(image) {
-  const popupImage = openImagePopup.querySelector('.popup__image');
-  const popupCaption = openImagePopup.querySelector('.popup__caption');
   popupImage.src = image.src;
   popupImage.alt = image.alt;
   popupCaption.textContent = image.alt;
+  changeCurrent(image, imagePopup);
+  openModal()
 }
 
-// вешаем обработчик на весь документ, смотрим куда кликаем и открываем нужную модалку
-document.addEventListener('click', (evt) => {
-  if (evt.target === editProfileBtn) {
-    changeCurrent(editProfileBtn, editProfilePopup)
-    openModal()
-  }
-  if (evt.target === createNewCardBtn) {
-    changeCurrent(createNewCardBtn, createNewCardPopup)
-    openModal()
-  }
-  if (evt.target.closest('.card__image')) {
-    changeCurrent(evt.target, openImagePopup);
-    openModal()
-  }
+// вешаем обработчики на окно редактирования имени профили и на окно добавления карточки
+editProfileBtn.addEventListener('click', () => {
+  changeCurrent(editProfileBtn, editProfilePopup)
+  // изменение имени профиля и добавление новой карточки
+  nameInput.value = document.querySelector('.profile__title').textContent;
+  jobInput.value = document.querySelector('.profile__description').textContent;
+  openModal()
 })
 
-// изменение имени профиля и добавление новой карточки
-nameInput.value = document.querySelector('.profile__title').textContent;
-jobInput.value = document.querySelector('.profile__description').textContent;
+createNewCardBtn.addEventListener('click', () => {
+  changeCurrent(createNewCardBtn, createNewCardPopup)
+  openModal()
+})
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  let formName = evt.target.getAttribute('name')
-  if (formName === 'edit-profile') {
-    document.querySelector('.profile__title').textContent = nameInput.value;
-    document.querySelector('.profile__description').textContent = jobInput.value;
+  profileTitle.textContent = nameInput.value;
+  profileDescription.textContent = jobInput.value;
+}
+
+function handleNewCardFormSubmit(evt) {
+  evt.preventDefault()
+  const newItem = {
+    name: cardNameInput.value,
+    link: cardUrlInput.value
   }
-  if (formName === 'new-place') {
-    let newItem = {
-      name: cardNameInput.value,
-      link: cardUrlInput.value
-    }
-    placesList.prepend(createCard(newItem.link, newItem.name, delCard, toggleCardLike));
-  }
+  cardsContainer.prepend(createCard(newItem, delCard, toggleCardLike, onImageClick));
+  cardNameInput.value = '';
+  cardUrlInput.value = '';
 }
 
 // Вешаем обработчик на формы
-formElement.forEach((form) => {
-  form.addEventListener('submit', handleFormSubmit)
+formList.forEach((form) => {
+  let formName = form.getAttribute('name')
+  if (formName === 'edit-profile') {
+    form.addEventListener('submit', handleFormSubmit)
+  }
+  if (formName === 'new-place') {
+    form.addEventListener('submit', handleNewCardFormSubmit)
+  }
 })
