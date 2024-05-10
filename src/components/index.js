@@ -44,8 +44,8 @@ function onImageClick(image) {
 // вешаем обработчики на окно редактирования имени профили и на окно добавления карточки
 editProfileBtn.addEventListener('click', () => {
   // изменение имени профиля и добавление новой карточки
-  nameInput.value = document.querySelector('.profile__title').textContent;
-  jobInput.value = document.querySelector('.profile__description').textContent;
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileTitle.textContent;
   openModal(editProfilePopup)
 })
 
@@ -53,7 +53,7 @@ createNewCardBtn.addEventListener('click', () => {
   openModal(createNewCardPopup)
 })
 
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
@@ -67,10 +67,9 @@ function handleNewCardFormSubmit(evt) {
     link: cardUrlInput.value
   }
   cardsContainer.prepend(createCard(newItem, delCard, toggleCardLike, onImageClick));
-  cardNameInput.value = '';
-  cardUrlInput.value = '';
+  evt.target.reset()
   closeModal(createNewCardPopup);
 }
 
-editProfilePopup.addEventListener("submit", handleFormSubmit);
+editProfilePopup.addEventListener("submit", handleProfileFormSubmit);
 createNewCardPopup.addEventListener("submit", handleNewCardFormSubmit);
