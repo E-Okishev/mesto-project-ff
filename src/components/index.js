@@ -1,7 +1,7 @@
 import '../pages/index.css';
 import {initialCards} from './cards.js'
 import {createCard, delCard, toggleCardLike} from "./card.js";
-import {openModal, closeModal, changeCurrent, setCloseModalByClickListeners} from "./modal.js";
+import {openModal, closeModal, setCloseModalByClickListeners} from "./modal.js";
 
 const cardsContainer = document.querySelector(".places__list");
 
@@ -38,13 +38,11 @@ function onImageClick(image) {
   popupImage.src = image.src;
   popupImage.alt = image.alt;
   popupCaption.textContent = image.alt;
-  changeCurrent(image, imagePopup);
   openModal(imagePopup)
 }
 
 // вешаем обработчики на окно редактирования имени профили и на окно добавления карточки
 editProfileBtn.addEventListener('click', () => {
-  changeCurrent(editProfileBtn, editProfilePopup)
   // изменение имени профиля и добавление новой карточки
   nameInput.value = document.querySelector('.profile__title').textContent;
   jobInput.value = document.querySelector('.profile__description').textContent;
@@ -52,7 +50,6 @@ editProfileBtn.addEventListener('click', () => {
 })
 
 createNewCardBtn.addEventListener('click', () => {
-  changeCurrent(createNewCardBtn, createNewCardPopup)
   openModal(createNewCardPopup)
 })
 

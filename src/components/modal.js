@@ -1,14 +1,6 @@
-let currentBtn;
-let currentModal;
-
-function changeCurrent(btn, modal) {
-  currentBtn = btn
-  currentModal = modal
-}
-
 function closeModal(modal) {
-  modal.classList.toggle('popup_is-opened')
-  document.removeEventListener('keydown', closeModal);
+  modal.classList.remove('popup_is-opened')
+  document.removeEventListener('keydown', handleCloseModalByEsc);
 }
 
 function handleCloseModalByEsc(evt) {
@@ -37,8 +29,8 @@ function setCloseModalByClickListeners(popupList) {
 }
 
 function openModal(modal) {
-  modal.classList.toggle('popup_is-opened')
+  modal.classList.add('popup_is-opened')
   document.addEventListener('keydown', handleCloseModalByEsc);
 }
 
-export {openModal, closeModal, changeCurrent, setCloseModalByClickListeners}
+export {openModal, closeModal, setCloseModalByClickListeners}
