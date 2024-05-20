@@ -45,7 +45,7 @@ function onImageClick(image) {
 editProfileBtn.addEventListener('click', () => {
   // изменение имени профиля и добавление новой карточки
   nameInput.value = profileTitle.textContent;
-  jobInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
   openModal(editProfilePopup)
 })
 
