@@ -2,26 +2,23 @@ import '../pages/index.css';
 import {initialCards} from './cards.js'
 import {createCard, delCard, toggleCardLike} from "./card.js";
 import {openModal, closeModal, setCloseModalByClickListeners} from "./modal.js";
-
-const cardsContainer = document.querySelector(".places__list");
-
-const editProfileBtn = document.querySelector('.profile__edit-button')
-const editProfilePopup = document.querySelector('.popup_type_edit');
-const createNewCardBtn = document.querySelector('.profile__add-button')
-const createNewCardPopup = document.querySelector('.popup_type_new-card');
-const imagePopup = document.querySelector('.popup_type_image');
-
-const profileTitle = document.querySelector('.profile__title');
-const profileDescription = document.querySelector('.profile__description');
-const nameInput = document.querySelector('.popup__input_type_name');
-const jobInput = document.querySelector('.popup__input_type_description');
-const cardNameInput = document.querySelector('.popup__input_type_card-name');
-const cardUrlInput = document.querySelector('.popup__input_type_url');
-
-const popupImage = imagePopup.querySelector('.popup__image');
-const popupCaption = imagePopup.querySelector('.popup__caption');
-
-const popupList = [editProfilePopup, createNewCardPopup, imagePopup]
+import {
+  cardsContainer,
+  editProfileBtn,
+  editProfilePopup,
+  createNewCardBtn, 
+  createNewCardPopup, 
+  imagePopup, 
+  profileTitle, 
+  profileDescription, 
+  nameInput, 
+  jobInput, 
+  cardNameInput, 
+  cardUrlInput, 
+  popupImage, 
+  popupCaption, 
+  popupList
+} from "./const.js"
 
 // Вывести карточки на страницу
 function renderCards(array, delCard, likeCard, onImageClick) {
