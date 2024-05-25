@@ -19,20 +19,34 @@ const jobInput = document.querySelector('.popup__input_type_description');
 const cardNameInput = document.querySelector('.popup__input_type_card-name');
 const cardUrlInput = document.querySelector('.popup__input_type_url');
 
+const editProfileForm = document.querySelector('.popup__form[name="edit-profile"]')
+const newPlaceForm = document.querySelector('.popup__form[name="new-place"]')
+
+const validationConfig = {
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 export {
-    cardsContainer, 
-    editProfileBtn,
-    editProfilePopup,
-    createNewCardBtn, 
-    createNewCardPopup, 
-    imagePopup, 
-    profileTitle, 
-    profileDescription, 
-    nameInput, 
-    jobInput, 
-    cardNameInput, 
-    cardUrlInput, 
-    popupImage, 
-    popupCaption, 
-    popupList
+  cardsContainer,
+  editProfileBtn,
+  editProfilePopup,
+  createNewCardBtn,
+  createNewCardPopup,
+  imagePopup,
+  profileTitle,
+  profileDescription,
+  nameInput,
+  jobInput,
+  cardNameInput,
+  cardUrlInput,
+  popupImage,
+  popupCaption,
+  popupList,
+  editProfileForm,
+  newPlaceForm,
+  validationConfig
 }

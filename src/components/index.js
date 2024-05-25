@@ -6,19 +6,23 @@ import {
   cardsContainer,
   editProfileBtn,
   editProfilePopup,
-  createNewCardBtn, 
-  createNewCardPopup, 
-  imagePopup, 
-  profileTitle, 
-  profileDescription, 
-  nameInput, 
-  jobInput, 
-  cardNameInput, 
-  cardUrlInput, 
-  popupImage, 
-  popupCaption, 
-  popupList
+  createNewCardBtn,
+  createNewCardPopup,
+  imagePopup,
+  profileTitle,
+  profileDescription,
+  nameInput,
+  jobInput,
+  cardNameInput,
+  cardUrlInput,
+  popupImage,
+  popupCaption,
+  popupList,
+  editProfileForm,
+  newPlaceForm,
+  validationConfig
 } from "./const.js"
+import {enableValidation, clearValidation} from "./validation.js";
 
 // Вывести карточки на страницу
 function renderCards(array, delCard, likeCard, onImageClick) {
@@ -44,10 +48,12 @@ editProfileBtn.addEventListener('click', () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
   openModal(editProfilePopup)
+  clearValidation(editProfileForm, validationConfig)
 })
 
 createNewCardBtn.addEventListener('click', () => {
   openModal(createNewCardPopup)
+  clearValidation(newPlaceForm, validationConfig)
 })
 
 function handleProfileFormSubmit(evt) {
@@ -70,3 +76,17 @@ function handleNewCardFormSubmit(evt) {
 
 editProfilePopup.addEventListener("submit", handleProfileFormSubmit);
 createNewCardPopup.addEventListener("submit", handleNewCardFormSubmit);
+
+enableValidation(
+  {
+    ...validationConfig,
+    formSelector: '.popup__form[name="new-place"]'
+  }
+)
+
+enableValidation(
+  {
+    ...validationConfig,
+    formSelector: '.popup__form[name="edit-profile"]'
+  }
+)
