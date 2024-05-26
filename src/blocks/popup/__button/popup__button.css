@@ -21,7 +21,10 @@
 
 .popup__button_disabled {
   pointer-events: none;
-  background: red;
+  opacity: 0.2;
+  border: 1px solid #000000;
+  background: transparent;
+  color: #000000;
 }
 
 @media screen and (max-width: 568px) {
