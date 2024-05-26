@@ -30,6 +30,11 @@ const validationConfig = {
   errorClass: 'popup__error_visible'
 }
 
+const authToken = {
+  token: "67c3b6ba-e04b-434d-81f3-8a123b402586",
+  idCohort: "wff-cohort-14"
+}
+
 export {
   cardsContainer,
   editProfileBtn,
@@ -48,5 +53,6 @@ export {
   popupList,
   editProfileForm,
   newPlaceForm,
-  validationConfig
+  validationConfig,
+  authToken
 }

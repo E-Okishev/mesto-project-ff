@@ -1,5 +1,4 @@
 import '../pages/index.css';
-import {initialCards} from './cards.js'
 import {createCard, delCard, toggleCardLike} from "./card.js";
 import {openModal, closeModal, setCloseModalByClickListeners} from "./modal.js";
 import {
@@ -20,22 +19,25 @@ import {
   popupList,
   editProfileForm,
   newPlaceForm,
-  validationConfig
+  validationConfig,
+  authToken
 } from "./const.js"
 import {enableValidation, clearValidation} from "./validation.js";
 
-// Вывести карточки на страницу
-function renderCards(array, delCard, likeCard, onImageClick) {
-  array.forEach(card => {
-    cardsContainer.append(createCard(card, delCard, likeCard, onImageClick));
-  });
-}
+import {fetchData} from "./api.js";
 
-renderCards(initialCards, delCard, toggleCardLike, onImageClick);
+// Вывести карточки на страницу
+// function renderCards(array, delCard, likeCard, onImageClick) {
+//   array.forEach(card => {
+//     cardsContainer.append(createCard(card, delCard, likeCard, onImageClick));
+//   });
+// }
+
+// renderCards(initialCards, delCard, toggleCardLike, onImageClick);
 setCloseModalByClickListeners(popupList)
 
 // функция подставляет в открытую модалку фотографию
-function onImageClick(image) {
+export function onImageClick(image) {
   popupImage.src = image.src;
   popupImage.alt = image.alt;
   popupCaption.textContent = image.alt;
@@ -90,3 +92,5 @@ enableValidation(
     formSelector: '.popup__form[name="edit-profile"]'
   }
 )
+
+fetchData(authToken)
