@@ -1,3 +1,6 @@
+@import url('like/like.css');
+@import url('like-counter/like-counter.css');
+
 .card__like-button {
   width: 21px;
   height: 18px;

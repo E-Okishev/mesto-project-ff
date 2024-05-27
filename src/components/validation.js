@@ -1,3 +1,6 @@
+import { authToken } from "./const.js"
+import {changeUserData} from "./api.js"
+
 function enableValidation({
                             formSelector,
                             inputSelector,
@@ -15,7 +18,9 @@ function enableValidation({
   function startValidation() {
 
     form.addEventListener('submit', (event) => {
-      event.preventDefault()
+      event.preventDefault();
+      const formData = new FormData(form)
+      changeUserData(authToken, formData)
     })
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {

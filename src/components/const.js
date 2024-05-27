@@ -54,5 +54,5 @@ export {
   editProfileForm,
   newPlaceForm,
   validationConfig,
-  authToken
+  authToken, 
 }

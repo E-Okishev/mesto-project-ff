@@ -16,9 +16,9 @@
     <section class="profile page__section">
       <div class="profile__image" style="background-image: url(<%=require('./images/avatar.jpg')%>);"></div>
       <div class="profile__info">
-        <h1 class="profile__title">Жак-Ив Кусто</h1>
+        <h1 class="profile__title"></h1>
         <button class="profile__edit-button" type="button"></button>
-        <p class="profile__description">Исследователь океана</p>
+        <p class="profile__description"></p>
       </div>
       <button class="profile__add-button" type="button"></button>
     </section>
@@ -53,7 +53,7 @@
         <span class="form__input-error name-input-error"></span>
         <input 
           type="text" 
-          name="description" 
+          name="about" 
           class="popup__input popup__input_type_description" 
           placeholder="Занятие"       
           required
@@ -62,7 +62,7 @@
           pattern="^[a-zA-Zа-яёА-ЯЁ\s\-]+$"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
         >
-        <span class="form__input-error description-input-error"></span>
+        <span class="form__input-error about-input-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -113,7 +113,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <button type="button" class="card__like-button"></button>
+      <div class="card__like">
+        <button type="button" class="card__like-button"></button>
+        <span class="card__like-counter"></span>
+      </div>
     </div>
   </li>
 </template>

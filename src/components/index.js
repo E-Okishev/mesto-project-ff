@@ -24,7 +24,7 @@ import {
 } from "./const.js"
 import {enableValidation, clearValidation} from "./validation.js";
 
-import {fetchData} from "./api.js";
+import {getAllData, changeUserData} from "./api.js";
 
 // Вывести карточки на страницу
 // function renderCards(array, delCard, likeCard, onImageClick) {
@@ -71,7 +71,7 @@ function handleNewCardFormSubmit(evt) {
     name: cardNameInput.value,
     link: cardUrlInput.value
   }
-  cardsContainer.prepend(createCard(newItem, delCard, toggleCardLike, onImageClick));
+  cardsContainer.prepend(createCard(newItem, delCard, toggleCardLike, onImageClick, userId));
   evt.target.reset()
   closeModal(createNewCardPopup);
 }
@@ -93,4 +93,5 @@ enableValidation(
   }
 )
 
-fetchData(authToken)
+
+getAllData(authToken)
