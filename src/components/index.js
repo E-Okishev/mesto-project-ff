@@ -19,25 +19,16 @@ import {
   popupList,
   editProfileForm,
   newPlaceForm,
-  validationConfig,
-  authToken
+  validationConfig
 } from "./const.js"
 import {enableValidation, clearValidation} from "./validation.js";
 
-import {getAllData, changeUserData} from "./api.js";
+import { user, fetchData, updateProfile } from "./api.js";
 
-// Вывести карточки на страницу
-// function renderCards(array, delCard, likeCard, onImageClick) {
-//   array.forEach(card => {
-//     cardsContainer.append(createCard(card, delCard, likeCard, onImageClick));
-//   });
-// }
-
-// renderCards(initialCards, delCard, toggleCardLike, onImageClick);
 setCloseModalByClickListeners(popupList)
 
 // функция подставляет в открытую модалку фотографию
-export function onImageClick(image) {
+function onImageClick(image) {
   popupImage.src = image.src;
   popupImage.alt = image.alt;
   popupCaption.textContent = image.alt;
@@ -79,19 +70,4 @@ function handleNewCardFormSubmit(evt) {
 editProfilePopup.addEventListener("submit", handleProfileFormSubmit);
 createNewCardPopup.addEventListener("submit", handleNewCardFormSubmit);
 
-enableValidation(
-  {
-    ...validationConfig,
-    formSelector: '.popup__form[name="new-place"]'
-  }
-)
-
-enableValidation(
-  {
-    ...validationConfig,
-    formSelector: '.popup__form[name="edit-profile"]'
-  }
-)
-
-
-getAllData(authToken)
+enableValidation(validationConfig)

@@ -1,110 +1,80 @@
 import { authToken } from "./const.js"
 import {changeUserData} from "./api.js"
 
-function enableValidation({
-                            formSelector,
-                            inputSelector,
-                            submitButtonSelector,
-                            inactiveButtonClass,
-                            inputErrorClass,
-                            errorClass
-                          }) {
-  const form = document.querySelector(formSelector)
-  const inputList = Array.from(form.querySelectorAll(inputSelector))
-  const buttonElement = form.querySelector(submitButtonSelector)
+function showInputError(formElement, inputElement, errorMessage, validationConfig) {
+  const errorElement = formElement.querySelector(`.${inputElement.name}-input-error`);
+  inputElement.classList.add(validationConfig.inputErrorClass);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(validationConfig.errorClass);
+}
 
-  startValidation()
+function hideInputError(formElement, inputElement, validationConfig) {
+  const errorElement = formElement.querySelector(`.${inputElement.name}-input-error`);
+  inputElement.classList.remove(validationConfig.inputErrorClass);
+  errorElement.classList.remove(validationConfig.errorClass);
+  errorElement.textContent = "";
+}
 
-  function startValidation() {
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const formData = new FormData(form)
-      changeUserData(authToken, formData)
-    })
-    inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', () => {
-        checkInputValidity(inputElement)
-        toggleButton()
-      })
-    })
+function checkInputValidity(formElement, inputElement, validationConfig) {
+  if (inputElement.validity.patternMistmach) {
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+  } else {
+    inputElement.setCustomValidity("");
   }
 
-  function checkInputValidity(inputElement) {
-    if (inputElement.validity.patternMismatch) {
-      inputElement.setCustomValidity(inputElement.dataset.errorMessage)
-    } else {
-      inputElement.setCustomValidity(checkLengthMismatch(inputElement))
-    }
-    if (!inputElement.validity.valid) {
-      toggleErrorSpan(inputElement, inputElement.validationMessage)
-    } else {
-      toggleErrorSpan(inputElement)
-    }
-  }
-
-  function checkLengthMismatch(inputElement) {
-    if (inputElement.type !== 'text') {
-      return ''
-    }
-    const valueLength = inputElement.value.trim().length
-    if (valueLength < inputElement.minLength) {
-      return `Минимальное количество символов: ${inputElement.minLength}`
-    }
-    return ''
-  }
-
-  function hasInvalidInput() {
-    return inputList.some((inputElement) => {
-      return !inputElement.validity.valid
-    })
-  }
-
-  function toggleErrorSpan(inputElement, errorMessage) {
-    const errorElement = document.querySelector(`.${inputElement.name}-input-error`)
-    if (errorMessage) {
-      inputElement.classList.add(inputErrorClass)
-      errorElement.textContent = errorMessage
-      errorElement.classList.add(errorClass)
-    } else {
-      inputElement.classList.remove(inputErrorClass)
-      errorElement.textContent = ''
-      errorElement.classList.remove(errorClass)
-    }
-  }
-
-  function toggleButton() {
-    if (hasInvalidInput()) {
-      buttonElement.classList.add(inactiveButtonClass)
-    } else {
-      buttonElement.classList.remove(inactiveButtonClass)
-    }
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage, validationConfig);
+  } else {
+    hideInputError(formElement, inputElement, validationConfig);
   }
 }
 
-function clearValidation(form, validationConfig) {
-  const {
-    inputSelector,
-    submitButtonSelector,
-    inactiveButtonClass,
-    inputErrorClass,
-    errorClass
-  } = validationConfig;
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}
 
-  const inputList = Array.from(form.querySelectorAll(inputSelector))
-  const buttonElement = form.querySelector(submitButtonSelector)
-  const errorList = Array.from(form.querySelectorAll('.form__input-error'))
+function toggleButtonState(inputList, buttonElement, validationConfig) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  } else {
+    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
+  }
+}
 
-  buttonElement.classList.add(inactiveButtonClass)
+function setEventListeners(formElement, validationConfig) {
+  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+
+  toggleButtonState(inputList, buttonElement, validationConfig);
 
   inputList.forEach((inputElement) => {
-    inputElement.classList.remove(inputErrorClass)
-  })
-  
-  errorList.forEach((error) => {
-    error.textContent = "";
-    error.classList.remove(errorClass)
-  })
+    inputElement.addEventListener("input", () => {
+      checkInputValidity(formElement, inputElement, validationConfig);
+      toggleButtonState(inputList, buttonElement, validationConfig);
+      const formData = new FormData(formElement)
+      changeUserData(authToken, formData)
+    });
+  });
+}
+
+function enableValidation(validationConfig) {
+  const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+  formList.forEach((formElement) => setEventListeners(formElement, validationConfig));
+}
+
+function clearValidation(formElement, validationConfig) {
+  const inputList = Array.from(
+    formElement.querySelectorAll(validationConfig.inputSelector)
+  );
+  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, validationConfig);
+  });
+
+  toggleButtonState(inputList, buttonElement, validationConfig);
 }
 
 export {enableValidation, clearValidation}

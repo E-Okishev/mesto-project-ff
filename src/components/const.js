@@ -23,17 +23,13 @@ const editProfileForm = document.querySelector('.popup__form[name="edit-profile"
 const newPlaceForm = document.querySelector('.popup__form[name="new-place"]')
 
 const validationConfig = {
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
-
-const authToken = {
-  token: "67c3b6ba-e04b-434d-81f3-8a123b402586",
-  idCohort: "wff-cohort-14"
-}
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 export {
   cardsContainer,
@@ -54,5 +50,4 @@ export {
   editProfileForm,
   newPlaceForm,
   validationConfig,
-  authToken, 
 }

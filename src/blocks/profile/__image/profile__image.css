@@ -11,9 +11,11 @@
 }
 
 .profile__image:hover {
-  background-color: #000000;
   opacity: 20%;
-  background-image: url('../../../images/pen.svg');
+  background: url('/src/images/edit-icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
 }
 
 @media screen and (max-width: 740px) {

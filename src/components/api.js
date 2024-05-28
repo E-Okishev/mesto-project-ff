@@ -1,57 +1,50 @@
-import { updateUserInfo } from "./updateUserInfo.js";
-import { renderCards } from "./renderCards.js";
-
-async function fetchData(auth) {
-  return fetch(`https://nomoreparties.co/v1/${auth.idCohort}/cards`, {
-    headers: {
-      authorization: auth.token,
-    },
-  });
-}
-
-async function user(auth) {
-  return fetch(`https://nomoreparties.co/v1/${auth.idCohort}/users/me`, {
-    headers: {
-      authorization: auth.token,
-    },
-  });
-}
-
-async function updateProfile(auth, formData) {
-  return fetch(`https://nomoreparties.co/v1/${auth.idCohort}/users/me`, {
-  method: 'PATCH',
+const config = {
+  baseUrl: "https://nomoreparties.co/v1/wff-cohort-14",
   headers: {
-    authorization: auth.token,
-    'Content-Type': 'application/json'
+    authorization: "67c3b6ba-e04b-434d-81f3-8a123b402586",
+    "Content-Type": "application/json",
   },
-  body: JSON.stringify({
-    name: formData.get('name'),
-    about: formData.get('about')
+};
+
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+};
+
+// получили данные о карточках
+
+function fetchData() {
+  return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers,
   })
-});
+  .then(handleResponse);
 }
 
-async function getAllData(auth) {
-  try {
-    const responce = await Promise.all([user(auth), fetchData(auth)]);
-    const userInfo = await responce[0].json();
-    updateUserInfo(userInfo);
-    const cardList = await responce[1].json();
-    renderCards(cardList, userInfo._id);
-  } catch (error) {
-    throw new Error(error);
-  }
+// получили данные пользователя
+
+function user() {
+  return fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers,
+  })
+  .then(handleResponse);
 }
 
-async function changeUserData(auth, formData) {
-  try {
-    const responce = await updateProfile(auth, formData);
-    if(responce.status === 200) {
-      await getAllData(auth)
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-}
+// Редактирование профиля 
 
-export { getAllData, changeUserData };
+function updateProfile(nameInput, jobInput) {
+  return fetch(`${configAPI.baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: configAPI.headers,
+    body: JSON.stringify({
+      name: nameInput.value,
+      about: jobInput.value,
+    }),
+  })
+  .then(handleResponse);
+};
+
+
+
+export { user, fetchData, updateProfile };
