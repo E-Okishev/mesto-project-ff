@@ -1,6 +1,8 @@
+import { toggleLikeButton } from "./api";
+
 const cardTemplate = document.querySelector("#card-template").content;
 
-function createCard(cardData, delCard, likeCard, onImageClick, userId) {
+function createCard(cardData, delCard, likeCard, onImageClick, userData) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const likeCounter = cardData.likes.length;
@@ -13,28 +15,31 @@ function createCard(cardData, delCard, likeCard, onImageClick, userId) {
   cardImage.loading = "lazy";
   cardTitle.textContent = cardData.name;
 
-  deleteButton.addEventListener("click", () => delCard(cardElement));
+  if (cardData.owner._id !== userData._id) {
+    deleteButton.style.display = "none";
+  }
+
+  if (cardData.likes.some((user) => user._id === userData._id)) {
+    likeButton.classList.add("card__like-button_is-active");
+  }
+
+  deleteButton.addEventListener("click", () => delCard(cardElement, cardData._id));
   likeButton.addEventListener("click", () => {
-    likeCard(likeButton, cardData, userId);
+    likeCard(likeButton, cardData._id, likeCounter);
   });
   cardImage.addEventListener("click", () => onImageClick(cardImage));
-  cardElement.querySelector(".card__like-counter").textContent = likeCounter;
 
   return cardElement;
 }
 
-function delCard(cardElement) {
-  cardElement.remove();
+function delCard(cardElement, cardId) {
+  openModal(deletePopup);
 }
+
+
 
 function toggleCardLike(likeButton, cardData, userId) {
   likeButton.classList.toggle("card__like-button_is-active");
-  sendLikeRequest(cardData, userId);
-}
-
-function sendLikeRequest(cardData, userId) {
-  console.log("cardData", cardData);
-  console.log("userId", userId);
 }
 
 export { createCard, delCard, toggleCardLike };

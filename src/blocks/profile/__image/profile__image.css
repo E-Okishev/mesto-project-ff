@@ -8,14 +8,37 @@
   background-position: center;
   margin: 0 29px 0 0;
   transition: all 0.3s ease-in-out;
+  position: relative;
+  cursor: pointer;
 }
 
-.profile__image:hover {
-  opacity: 20%;
-  background: url('/src/images/edit-icon.svg');
-  background-repeat: no-repeat;
-  background-size: contain;
+.profile__image::after {
+  content: "";
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  width: 100%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
 
+.profile__image::before {
+  position: absolute;
+  top: calc(50% - 26px / 2);
+  left: calc(50% - 26px / 2);
+  content: url("/src/images/edit-icon.svg");
+  width: 26px;
+  height: 26px;
+  display: none;
+}
+
+.profile__image:hover::after {
+  display: block;
+}
+
+.profile__image:hover::before {
+  display: block;
 }
 
 @media screen and (max-width: 740px) {

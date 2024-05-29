@@ -13,25 +13,23 @@ const handleResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 };
 
-// получили данные о карточках
+// Получили данные о карточках
 
 function fetchData() {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
-  })
-  .then(handleResponse);
+  }).then(handleResponse);
 }
 
-// получили данные пользователя
+// Получили данные пользователя
 
 function user() {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
-  })
-  .then(handleResponse);
+  }).then(handleResponse);
 }
 
-// Редактирование профиля 
+// Редактирование профиля
 
 function updateProfile(nameInput, jobInput) {
   return fetch(`${configAPI.baseUrl}/users/me`, {
@@ -41,10 +39,58 @@ function updateProfile(nameInput, jobInput) {
       name: nameInput.value,
       about: jobInput.value,
     }),
+  }).then(handleResponse);
+}
+
+// Отправили новую картчоку на сервер
+
+function createNewCard(cardNameInput, cardUrlInput) {
+  return fetch(`${configAPI.baseUrl}/cards`, {
+    method: "POST",
+    headers: configAPI.headers,
+    body: JSON.stringify({
+      name: cardNameInput.value,
+      link: cardUrlInput.value,
+    }),
+  }).then(handleResponse);
+}
+
+// Удалили карточку с сервера
+
+function deletedCardFromServer(cardId) {
+  return fetch(`${configAPI.baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: configAPI.headers,
+  }).then(handleResponse);
+}
+
+// Отправили и удалили лайк у картчки
+
+function toggleLikeButton(cardId, isLiked) {
+  if (isLiked) {
+    return fetch(`${configAPI.baseUrl}/cards/likes/${cardId}`, {
+      method: "PUT",
+      headers: configAPI.headers,
+    }).then(handleResponse);
+  } else {
+    return fetch(`${configAPI.baseUrl}/cards/likes/${cardId}`, {
+      method: "DELETE",
+      headers: configAPI.headers,
+    }).then(handleResponse);
+  }
+}
+
+// Редактирование аватара
+
+function updateAvatar(avatar) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: avatar,
+    }),
   })
-  .then(handleResponse);
-};
+    .then(handleResponse)
+}
 
-
-
-export { user, fetchData, updateProfile };
+export { fetchData, user, updateProfile, createNewCard, deletedCardFromServer, toggleLikeButton, updateAvatar };

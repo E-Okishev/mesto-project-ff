@@ -1,6 +1,3 @@
-import { authToken } from "./const.js"
-import {changeUserData} from "./api.js"
-
 function showInputError(formElement, inputElement, errorMessage, validationConfig) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-input-error`);
   inputElement.classList.add(validationConfig.inputErrorClass);
