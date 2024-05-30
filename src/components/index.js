@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import { createCard, delCard, toggleCardLike } from "./card.js";
+import { createCard, openDeletePopup, toggleCardLike } from "./card.js";
 import {
   openModal,
   closeModal,
@@ -14,18 +14,21 @@ import {
   createNewCardPopup,
   imagePopup,
   updateAvatarPopup,
+  deletePopup,
   profileTitle,
   profileDescription,
   nameInput,
   jobInput,
   cardNameInput,
   cardUrlInput,
+  avatarInput,
   popupImage,
   popupCaption,
   popupList,
   editProfileForm,
   newPlaceForm,
   updateAvatarForm,
+  deleteForm,
   validationConfig,
 } from "./const.js";
 import { enableValidation, clearValidation } from "./validation.js";
@@ -35,10 +38,15 @@ import {
   updateProfile,
   createNewCard,
   deletedCardFromServer,
-  toggleLikeButton,
+  addLike,
+  delLike,
   updateAvatar,
 } from "./api.js";
-import { getUserData, handleProfileFormSubmit } from "./getUserData.js";
+import {
+  getUserData,
+  handleProfileFormSubmit,
+  handleEditAvatarForm,
+} from "./getUserData.js";
 
 setCloseModalByClickListeners(popupList);
 
@@ -54,10 +62,10 @@ function onImageClick(image) {
 // окно редактирования имени профили
 editProfileBtn.addEventListener("click", () => {
   // Подставляем в инпуты текущее имя и описание профиля
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileDescription.textContent;
   openModal(editProfilePopup);
   clearValidation(editProfileForm, validationConfig);
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
 });
 // окно добавления карточки
 createNewCardBtn.addEventListener("click", () => {
@@ -74,33 +82,73 @@ updateAvatarBtn.addEventListener("click", () => {
 
 function handleNewCardFormSubmit(evt) {
   evt.preventDefault();
-  const newItem = {
+  const popupElement = document.querySelector(".popup_is-opened");
+  saveLoading(true, popupElement);
+
+  createNewCard({
     name: cardNameInput.value,
-    link: cardUrlInput.value,
-  };
-  cardsContainer.prepend(
-    createCard(newItem, delCard, toggleCardLike, onImageClick)
-  );
+    url: cardUrlInput,
+  })
+    .then((newItem) => {
+      cardsContainer.prepend(
+        createCard(newItem, openDeletePopup, toggleCardLike, onImageClick)
+      );
+    })
+    .then(() => {
+      closeModal(createNewCardPopup);
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка:", error);
+    })
+    .finally(() => {
+      saveLoading(false, popupElement);
+    });
   evt.target.reset();
-  closeModal(createNewCardPopup);
 }
 
 // Получаем данные о профиле и карточках и отоображаем на странице полученные карточки
 
 Promise.all([user(), fetchData()])
-.then(([userData, cardsData]) => {
-  getUserData(userData);
+  .then(([userData, cardsData]) => {
+    getUserData(userData);
 
-  cardsData.forEach((cardData) => {
-    cardsContainer.append(
-      createCard(cardData, delCard, toggleCardLike, onImageClick, userData)
-    );
+    cardsData.forEach((cardData) => {
+      cardsContainer.append(
+        createCard(
+          cardData,
+          openDeletePopup,
+          toggleCardLike,
+          onImageClick,
+          userData
+        )
+      );
+    });
+  })
+  .catch((error) => {
+    console.error("Произошла ошибка:", error);
   });
-})
-.catch((error) => {
-  throw new Error('Ошибка:', error);
-});
 
 editProfilePopup.addEventListener("submit", handleProfileFormSubmit);
 createNewCardPopup.addEventListener("submit", handleNewCardFormSubmit);
+updateAvatarForm.addEventListener("submit", handleEditAvatarForm);
 enableValidation(validationConfig);
+
+function saveLoading(isLoading, popupElement) {
+  const activeButton = popupElement.querySelector(".popup__button");
+  if (isLoading) {
+    activeButton.textContent = "Сохранение...";
+  } else {
+    activeButton.textContent = "Сохранить";
+  }
+}
+
+function deleteLoading(isLoading, popupElement) {
+  const activeButton = popupElement.querySelector(".popup__button");
+  if (isLoading) {
+    activeButton.textContent = "Удаление...";
+  } else {
+    activeButton.textContent = "Да";
+  }
+}
+
+export { saveLoading, deleteLoading };

@@ -50,8 +50,6 @@ function setEventListeners(formElement, validationConfig) {
     inputElement.addEventListener("input", () => {
       checkInputValidity(formElement, inputElement, validationConfig);
       toggleButtonState(inputList, buttonElement, validationConfig);
-      const formData = new FormData(formElement)
-      changeUserData(authToken, formData)
     });
   });
 }
