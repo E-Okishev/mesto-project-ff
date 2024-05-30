@@ -43,10 +43,10 @@ import {
   updateAvatar,
 } from "./api.js";
 import {
-  getUserData,
   handleProfileFormSubmit,
   handleEditAvatarForm,
 } from "./getUserData.js";
+let userId;
 
 setCloseModalByClickListeners(popupList);
 
@@ -87,18 +87,28 @@ function handleNewCardFormSubmit(evt) {
 
   createNewCard({
     name: cardNameInput.value,
-    url: cardUrlInput,
+    link: cardUrlInput.value,
   })
     .then((newItem) => {
       cardsContainer.prepend(
-        createCard(newItem, openDeletePopup, toggleCardLike, onImageClick)
+        createCard(
+          newItem.name,
+          newItem.link,
+          newItem.likes,
+          newItem.owner._id,
+          newItem._id,
+          openDeletePopup,
+          toggleCardLike,
+          onImageClick,
+          userId
+        )
       );
     })
     .then(() => {
       closeModal(createNewCardPopup);
     })
     .catch((error) => {
-      console.error("Произошла ошибка:", error);
+      console.log("Произошла ошибка:", error);
     })
     .finally(() => {
       saveLoading(false, popupElement);
@@ -110,22 +120,29 @@ function handleNewCardFormSubmit(evt) {
 
 Promise.all([user(), fetchData()])
   .then(([userData, cardsData]) => {
-    getUserData(userData);
+    profileTitle.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+    updateAvatarBtn.style.backgroundImage = `url('${userData.avatar}')`;
+    userId = userData._id;
 
     cardsData.forEach((cardData) => {
       cardsContainer.append(
         createCard(
-          cardData,
+          cardData.name,
+          cardData.link,
+          cardData.likes,
+          cardData.owner._id,
+          cardData._id,
           openDeletePopup,
           toggleCardLike,
           onImageClick,
-          userData
+          userId
         )
       );
     });
   })
   .catch((error) => {
-    console.error("Произошла ошибка:", error);
+    console.log("Произошла ошибка:", error);
   });
 
 editProfilePopup.addEventListener("submit", handleProfileFormSubmit);

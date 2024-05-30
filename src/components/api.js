@@ -44,13 +44,13 @@ function updateProfile({name, about}) {
 
 // Отправили новую картчоку на сервер
 
-function createNewCard({name, url}) {
+function createNewCard({name, link}) {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({
       name: name,
-      link: url,
+      link: link,
     }),
   }).then(handleResponse);
 }

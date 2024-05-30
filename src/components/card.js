@@ -1,39 +1,47 @@
 import { deletedCardFromServer, addLike, delLike } from "./api";
 import { deletePopup, deleteForm } from "./const.js";
-import { openModal } from "./modal.js";
-import { deleteLoading } from "./index.js"
+import { openModal, closeModal } from "./modal.js";
+import { deleteLoading } from "./index.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
 let tempCardElement;
 let tempCardId;
 
-function createCard(cardData, openDeletePopup, toggleCardLike, onImageClick, userData) {
-  const ownerId = cardData.owner._id;
-  const userId = userData._id;
-  const cardId = cardData._id;
+function createCard(
+  name,
+  link,
+  likes,
+  ownerId,
+  cardId,
+  openDeletePopup,
+  toggleCardLike,
+  onImageClick,
+  userId
+) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const deleteButton = cardElement.querySelector(".card__delete-button");
-  const likeCount = cardElement.querySelector('.card__like-counter')
+  const likeCount = cardElement.querySelector(".card__like-counter");
   const likeButton = cardElement.querySelector(".card__like-button");
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
-  likeCount.textContent = cardData.likes.length;
-  
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
+  likeCount.textContent = likes.length;
+
+  cardImage.src = link;
+  cardImage.alt = name;
   cardImage.loading = "lazy";
-  cardTitle.textContent = cardData.name;
-  
+  cardTitle.textContent = name;
 
   if (ownerId !== userId) {
     deleteButton.style.display = "none";
   }
 
-  if (cardData.likes.some((user) => user._id === userId)) {
+  if (likes.some((user) => user._id === userId)) {
     likeButton.classList.add("card__like-button_is-active");
   }
 
-  deleteButton.addEventListener("click", () => openDeletePopup(cardElement, cardId));
+  deleteButton.addEventListener("click", () =>
+    openDeletePopup(cardElement, cardId)
+  );
   likeButton.addEventListener("click", () =>
     toggleCardLike(likeButton, cardId, likeCount)
   );
@@ -43,7 +51,7 @@ function createCard(cardData, openDeletePopup, toggleCardLike, onImageClick, use
 }
 
 function openDeletePopup(cardElement, cardId) {
-  openModal(deletePopup)
+  openModal(deletePopup);
   tempCardElement = cardElement;
   tempCardId = cardId;
 }
@@ -55,7 +63,7 @@ deleteForm.addEventListener("submit", function (evt) {
 
 function deleteCard(cardElement, cardId) {
   const popupElement = document.querySelector(".popup_is-opened");
-  deleteLoading(true, popupElement);  
+  deleteLoading(true, popupElement);
 
   deletedCardFromServer(cardId)
     .then(() => {
@@ -63,11 +71,11 @@ function deleteCard(cardElement, cardId) {
       closeModal(deletePopup);
     })
     .catch((error) => {
-      console.error("Произошла ошибка:", error);
+      console.log("Произошла ошибка:", error);
     })
     .finally(() => {
-      deleteLoading(false, popupElement)
-    })
+      deleteLoading(false, popupElement);
+    });
 }
 
 function toggleCardLike(likeButton, cardId, likeCount) {
@@ -79,8 +87,8 @@ function toggleCardLike(likeButton, cardId, likeCount) {
       likeCount = res.likes.length;
       likeButton.classList.toggle("card__like-button_is-active");
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.log("Произошла ошибка:", error);
     });
 }
 
