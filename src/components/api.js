@@ -31,26 +31,26 @@ function user() {
 
 // Редактирование профиля
 
-function updateProfile(nameInput, jobInput) {
-  return fetch(`${configAPI.baseUrl}/users/me`, {
+function updateProfile({name, about}) {
+  return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
-    headers: configAPI.headers,
+    headers: config.headers,
     body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value,
+      name: name,
+      about: about,
     }),
   }).then(handleResponse);
 }
 
 // Отправили новую картчоку на сервер
 
-function createNewCard(cardNameInput, cardUrlInput) {
-  return fetch(`${configAPI.baseUrl}/cards`, {
+function createNewCard({name, url}) {
+  return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
-    headers: configAPI.headers,
+    headers: config.headers,
     body: JSON.stringify({
-      name: cardNameInput.value,
-      link: cardUrlInput.value,
+      name: name,
+      link: url,
     }),
   }).then(handleResponse);
 }
@@ -58,26 +58,26 @@ function createNewCard(cardNameInput, cardUrlInput) {
 // Удалили карточку с сервера
 
 function deletedCardFromServer(cardId) {
-  return fetch(`${configAPI.baseUrl}/cards/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
-    headers: configAPI.headers,
+    headers: config.headers,
   }).then(handleResponse);
 }
 
 // Отправили и удалили лайк у картчки
 
-function toggleLikeButton(cardId, isLiked) {
-  if (isLiked) {
-    return fetch(`${configAPI.baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: configAPI.headers,
-    }).then(handleResponse);
-  } else {
-    return fetch(`${configAPI.baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: configAPI.headers,
-    }).then(handleResponse);
-  }
+function addLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: config.headers,
+  }).then(handleResponse);
+}
+
+function delLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
+  }).then(handleResponse);
 }
 
 // Редактирование аватара
@@ -89,8 +89,16 @@ function updateAvatar(avatar) {
     body: JSON.stringify({
       avatar: avatar,
     }),
-  })
-    .then(handleResponse)
+  }).then(handleResponse);
 }
 
-export { fetchData, user, updateProfile, createNewCard, deletedCardFromServer, toggleLikeButton, updateAvatar };
+export {
+  fetchData,
+  user,
+  updateProfile,
+  createNewCard,
+  deletedCardFromServer,
+  addLike,
+  delLike,
+  updateAvatar,
+};
