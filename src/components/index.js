@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import { createCard, openDeletePopup, toggleCardLike } from "./card.js";
+import {createCard, openDeletePopup, toggleCardLike} from "./card.js";
 import {
   openModal,
   closeModal,
@@ -14,38 +14,31 @@ import {
   createNewCardPopup,
   imagePopup,
   updateAvatarPopup,
-  deletePopup,
   profileTitle,
   profileDescription,
   nameInput,
   jobInput,
   cardNameInput,
   cardUrlInput,
-  avatarInput,
   popupImage,
   popupCaption,
   popupList,
   editProfileForm,
   newPlaceForm,
   updateAvatarForm,
-  deleteForm,
   validationConfig,
 } from "./const.js";
-import { enableValidation, clearValidation } from "./validation.js";
+import {enableValidation, clearValidation} from "./validation.js";
 import {
   fetchData,
   user,
-  updateProfile,
   createNewCard,
-  deletedCardFromServer,
-  addLike,
-  delLike,
-  updateAvatar,
 } from "./api.js";
 import {
   handleProfileFormSubmit,
   handleEditAvatarForm,
 } from "./getUserData.js";
+
 let userId;
 
 setCloseModalByClickListeners(popupList);
@@ -168,4 +161,4 @@ function deleteLoading(isLoading, popupElement) {
   }
 }
 
-export { saveLoading, deleteLoading };
+export {saveLoading, deleteLoading};

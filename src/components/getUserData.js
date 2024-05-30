@@ -1,32 +1,16 @@
 import {
-  cardsContainer,
-  editProfileBtn,
   editProfilePopup,
-  createNewCardBtn,
   updateAvatarBtn,
-  createNewCardPopup,
-  imagePopup,
   updateAvatarPopup,
-  deletePopup,
   profileTitle,
   profileDescription,
   nameInput,
   jobInput,
-  cardNameInput,
-  cardUrlInput,
   avatarInput,
-  popupImage,
-  popupCaption,
-  popupList,
-  editProfileForm,
-  newPlaceForm,
-  updateAvatarForm,
-  deleteForm,
-  validationConfig,
 } from "./const.js";
-import { saveLoading } from "./index.js";
-import { updateProfile, updateAvatar } from "./api.js";
-import { closeModal } from "./modal.js";
+import {saveLoading} from "./index.js";
+import {updateProfile, updateAvatar} from "./api.js";
+import {closeModal} from "./modal.js";
 
 // Изменяем имя профиля
 
@@ -52,6 +36,8 @@ function handleProfileFormSubmit(evt) {
     });
 }
 
+// Изменяем аватар
+
 function handleEditAvatarForm(evt) {
   evt.preventDefault();
   const popupElement = document.querySelector(".popup_is-opened");
@@ -70,4 +56,4 @@ function handleEditAvatarForm(evt) {
     });
 }
 
-export { handleProfileFormSubmit, handleEditAvatarForm };
+export {handleProfileFormSubmit, handleEditAvatarForm};
