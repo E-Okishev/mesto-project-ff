@@ -16,8 +16,7 @@ import {closeModal} from "./modal.js";
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  const popupElement = document.querySelector(".popup_is-opened");
-  saveLoading(true, popupElement);
+  saveLoading(true, editProfilePopup);
 
   updateProfile({
     name: nameInput.value,
@@ -32,7 +31,7 @@ function handleProfileFormSubmit(evt) {
       console.error("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, popupElement);
+      saveLoading(false, editProfilePopup);
     });
 }
 
@@ -40,8 +39,7 @@ function handleProfileFormSubmit(evt) {
 
 function handleEditAvatarForm(evt) {
   evt.preventDefault();
-  const popupElement = document.querySelector(".popup_is-opened");
-  saveLoading(true, popupElement);
+  saveLoading(true, updateAvatarPopup);
 
   updateAvatar(avatarInput.value)
     .then((data) => {
@@ -52,7 +50,7 @@ function handleEditAvatarForm(evt) {
       console.error("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, popupElement);
+      saveLoading(false, updateAvatarPopup);
     });
 }
 

@@ -49,8 +49,7 @@ function createCard(
 }
 
 function deleteCard(cardElement, cardId) {
-  const popupElement = document.querySelector(".popup_is-opened");
-  saveLoading(true, popupElement);
+  saveLoading(true, deletePopup);
 
   deletedCardFromServer(cardId)
     .then(() => {
@@ -61,7 +60,7 @@ function deleteCard(cardElement, cardId) {
       console.log("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, popupElement);
+      saveLoading(false, deletePopup);
     });
 }
 function checkStatusLike() {

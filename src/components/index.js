@@ -75,8 +75,7 @@ updateAvatarBtn.addEventListener("click", () => {
 
 function handleNewCardFormSubmit(evt) {
   evt.preventDefault();
-  const popupElement = document.querySelector(".popup_is-opened");
-  saveLoading(true, popupElement);
+  saveLoading(true, createNewCardPopup);
 
   createNewCard({
     name: cardNameInput.value,
@@ -104,7 +103,7 @@ function handleNewCardFormSubmit(evt) {
       console.log("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, popupElement);
+      saveLoading(false, createNewCardPopup);
     });
   }
 
