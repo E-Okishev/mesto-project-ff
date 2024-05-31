@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import {createCard, openDeletePopup, toggleCardLike} from "./card.js";
+import { createCard, deleteCard, changeLike } from "./card.js";
 import {
   openModal,
   closeModal,
@@ -7,13 +7,14 @@ import {
 } from "./modal.js";
 import {
   cardsContainer,
-  editProfileBtn,
+  buttonOpenPopupProfile,
   editProfilePopup,
   createNewCardBtn,
   updateAvatarBtn,
   createNewCardPopup,
   imagePopup,
   updateAvatarPopup,
+  deletePopup,
   profileTitle,
   profileDescription,
   nameInput,
@@ -26,20 +27,19 @@ import {
   editProfileForm,
   newPlaceForm,
   updateAvatarForm,
+  deleteForm,
   validationConfig,
 } from "./const.js";
-import {enableValidation, clearValidation} from "./validation.js";
-import {
-  fetchData,
-  user,
-  createNewCard,
-} from "./api.js";
+import { enableValidation, clearValidation } from "./validation.js";
+import { fetchData, user, createNewCard, addLike, delLike } from "./api.js";
 import {
   handleProfileFormSubmit,
   handleEditAvatarForm,
 } from "./getUserData.js";
 
 let userId;
+let tempCardElement;
+let tempCardId;
 
 setCloseModalByClickListeners(popupList);
 
@@ -53,7 +53,7 @@ function onImageClick(image) {
 
 // вешаем обработчики на:
 // окно редактирования имени профили
-editProfileBtn.addEventListener("click", () => {
+buttonOpenPopupProfile.addEventListener("click", () => {
   // Подставляем в инпуты текущее имя и описание профиля
   openModal(editProfilePopup);
   clearValidation(editProfileForm, validationConfig);
@@ -90,8 +90,7 @@ function handleNewCardFormSubmit(evt) {
           newItem.likes,
           newItem.owner._id,
           newItem._id,
-          openDeletePopup,
-          toggleCardLike,
+          handleLikeCard,
           onImageClick,
           userId
         )
@@ -99,6 +98,7 @@ function handleNewCardFormSubmit(evt) {
     })
     .then(() => {
       closeModal(createNewCardPopup);
+      evt.target.reset();
     })
     .catch((error) => {
       console.log("Произошла ошибка:", error);
@@ -106,8 +106,7 @@ function handleNewCardFormSubmit(evt) {
     .finally(() => {
       saveLoading(false, popupElement);
     });
-  evt.target.reset();
-}
+  }
 
 // Получаем данные о профиле и карточках и отоображаем на странице полученные карточки
 
@@ -126,8 +125,7 @@ Promise.all([user(), fetchData()])
           cardData.likes,
           cardData.owner._id,
           cardData._id,
-          openDeletePopup,
-          toggleCardLike,
+          handleLikeCard,
           onImageClick,
           userId
         )
@@ -161,4 +159,29 @@ function deleteLoading(isLoading, popupElement) {
   }
 }
 
-export {saveLoading, deleteLoading};
+function openDeletePopup(cardElement, cardId) {
+  openModal(deletePopup);
+  tempCardElement = cardElement;
+  tempCardId = cardId;
+}
+
+deleteForm.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  deleteCard(tempCardElement, tempCardId);
+});
+
+function handleLikeCard(status) {
+  !status
+    ? addLike()
+        .then((res) => changeLike())
+        .catch((error) => {
+          console.log("Произошла ошибка:", error);
+        })
+    : delLike()
+        .then((res) => changeLike())
+        .catch((error) => {
+          console.log("Произошла ошибка:", error);
+        });
+}
+
+export { saveLoading, deleteLoading, openDeletePopup, handleLikeCard };

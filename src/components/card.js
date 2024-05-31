@@ -1,11 +1,9 @@
 import { deletedCardFromServer, addLike, delLike } from "./api";
-import { deletePopup, deleteForm } from "./const.js";
-import { openModal, closeModal } from "./modal.js";
-import { deleteLoading } from "./index.js";
+import { deletePopup } from "./const.js";
+import { closeModal } from "./modal.js";
+import { deleteLoading, openDeletePopup } from "./index.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
-let tempCardElement;
-let tempCardId;
 
 function createCard(
   name,
@@ -13,8 +11,7 @@ function createCard(
   likes,
   ownerId,
   cardId,
-  openDeletePopup,
-  toggleCardLike,
+  handleLikeCard,
   onImageClick,
   userId
 ) {
@@ -42,24 +39,14 @@ function createCard(
   deleteButton.addEventListener("click", () =>
     openDeletePopup(cardElement, cardId)
   );
-  likeButton.addEventListener("click", () =>
-    toggleCardLike(likeButton, cardId, likeCount)
-  );
+  // likeButton.addEventListener("click", () =>
+  //   toggleCardLike(likeButton, cardId, likeCount)
+  // );
+  likeButton.addEventListener("click", () => handleLikeCard(checkStatusLike));
   cardImage.addEventListener("click", () => onImageClick(cardImage));
 
   return cardElement;
 }
-
-function openDeletePopup(cardElement, cardId) {
-  openModal(deletePopup);
-  tempCardElement = cardElement;
-  tempCardId = cardId;
-}
-
-deleteForm.addEventListener("submit", function (evt) {
-  evt.preventDefault();
-  deleteCard(tempCardElement, tempCardId);
-});
 
 function deleteCard(cardElement, cardId) {
   const popupElement = document.querySelector(".popup_is-opened");
@@ -77,19 +64,26 @@ function deleteCard(cardElement, cardId) {
       deleteLoading(false, popupElement);
     });
 }
-
-function toggleCardLike(likeButton, cardId, likeCount) {
-  const isLiked = likeButton.classList.contains("card__like-button_is-active")
-    ? delLike
-    : addLike;
-  isLiked(cardId)
-    .then((res) => {
-      likeCount = res.likes.length;
-      likeButton.classList.toggle("card__like-button_is-active");
-    })
-    .catch((error) => {
-      console.log("Произошла ошибка:", error);
-    });
+function checkStatusLike() {
+  console.log('checkStatusLike', likeButton.classList.contains("card__like-button_is-active"));
+  return likeButton.classList.contains("card__like-button_is-active");
 }
+function changeLike() {
+  likeCount = res.likes.length;
+  likeButton.classList.toggle("card__like-button_is-active");
+}
+// function toggleCardLike(likeButton, cardId, likeCount) {
+//   const isLiked = likeButton.classList.contains("card__like-button_is-active")
+//     ? delLike
+//     : addLike;
+//   isLiked(cardId)
+//     .then((res) => {
+//       likeCount = res.likes.length;
+//       likeButton.classList.toggle("card__like-button_is-active");
+//     })
+//     .catch((error) => {
+//       console.log("Произошла ошибка:", error);
+//     });
+// }
 
-export { createCard, openDeletePopup, toggleCardLike };
+export { createCard, deleteCard, changeLike };

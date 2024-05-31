@@ -1,6 +1,6 @@
 const cardsContainer = document.querySelector(".places__list");
 
-const editProfileBtn = document.querySelector(".profile__edit-button");
+const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
 const createNewCardBtn = document.querySelector(".profile__add-button");
 const updateAvatarBtn = document.querySelector(".profile__image");
 
@@ -49,7 +49,7 @@ const validationConfig = {
 
 export {
   cardsContainer,
-  editProfileBtn,
+  buttonOpenPopupProfile,
   editProfilePopup,
   createNewCardBtn,
   updateAvatarBtn,
