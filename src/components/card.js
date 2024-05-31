@@ -1,7 +1,7 @@
 import { deletedCardFromServer, addLike, delLike } from "./api";
 import { deletePopup } from "./const.js";
 import { closeModal } from "./modal.js";
-import { deleteLoading, openDeletePopup } from "./index.js";
+import { saveLoading, openDeletePopup } from "./index.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -50,7 +50,7 @@ function createCard(
 
 function deleteCard(cardElement, cardId) {
   const popupElement = document.querySelector(".popup_is-opened");
-  deleteLoading(true, popupElement);
+  saveLoading(true, popupElement);
 
   deletedCardFromServer(cardId)
     .then(() => {
@@ -61,7 +61,7 @@ function deleteCard(cardElement, cardId) {
       console.log("Произошла ошибка:", error);
     })
     .finally(() => {
-      deleteLoading(false, popupElement);
+      saveLoading(false, popupElement);
     });
 }
 function checkStatusLike() {

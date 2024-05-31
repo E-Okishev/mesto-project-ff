@@ -146,16 +146,7 @@ function saveLoading(isLoading, popupElement) {
   if (isLoading) {
     activeButton.textContent = "Сохранение...";
   } else {
-    activeButton.textContent = "Сохранить";
-  }
-}
-
-function deleteLoading(isLoading, popupElement) {
-  const activeButton = popupElement.querySelector(".popup__button");
-  if (isLoading) {
-    activeButton.textContent = "Удаление...";
-  } else {
-    activeButton.textContent = "Да";
+    activeButton.textContent = activeButton.dataset.text;
   }
 }
 
@@ -184,4 +175,4 @@ function handleLikeCard(status) {
         });
 }
 
-export { saveLoading, deleteLoading, openDeletePopup, handleLikeCard };
+export { saveLoading, openDeletePopup, handleLikeCard };
