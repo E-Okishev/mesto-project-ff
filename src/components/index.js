@@ -160,15 +160,15 @@ deleteForm.addEventListener("submit", function (evt) {
   deleteCard(tempCardElement, tempCardId);
 });
 
-function handleLikeCard(status, cardId) {
+function handleLikeCard(status, likeButton, likeCount, cardId) {
   !status
     ? addLike(cardId)
-      .then((res) => changeLike(res))
+      .then((res) => changeLike(res, likeButton, likeCount))
       .catch((error) => {
         console.log("Произошла ошибка:", error);
       })
     : delLike(cardId)
-      .then((res) => changeLike(res))
+      .then((res) => changeLike(res, likeButton, likeCount))
       .catch((error) => {
         console.log("Произошла ошибка:", error);
       });

@@ -39,7 +39,9 @@ function createCard(
   deleteButton.addEventListener("click", () =>
     openDeletePopup(cardElement, cardId)
   );
-  likeButton.addEventListener("click", () => checkStatusLike(likeButton, cardId));
+  likeButton.addEventListener("click", () =>
+    checkStatusLike(likeButton, likeCount, cardId)
+  );
   cardImage.addEventListener("click", () => onImageClick(cardImage));
 
   return cardElement;
@@ -61,15 +63,13 @@ function deleteCard(cardElement, cardId) {
     });
 }
 
-function checkStatusLike(likeButton, cardId, likeCount) {
+function checkStatusLike(likeButton, likeCount, cardId) {
   const isLiked = likeButton.classList.contains("card__like-button_is-active");
-  handleLikeCard(isLiked, cardId, likeCount, likeButton)
+  handleLikeCard(isLiked, likeButton, likeCount, cardId)
 }
 
-function changeLike(res) {
-  const likeCount = document.querySelector(".card__like-counter");
+function changeLike(res, likeButton, likeCount) {
   likeCount.textContent = res.likes.length;
-  const likeButton = document.querySelector('.card__like-button');
   likeButton.classList.toggle("card__like-button_is-active");
 }
 
