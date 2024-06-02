@@ -45,6 +45,7 @@ function handleEditAvatarForm(evt) {
     .then((data) => {
       updateAvatarBtn.style.backgroundImage = `url('${data.avatar}')`;
       closeModal(updateAvatarPopup);
+      evt.target.reset()
     })
     .catch((error) => {
       console.error("Произошла ошибка:", error);
