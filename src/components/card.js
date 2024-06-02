@@ -1,7 +1,7 @@
-import { deletedCardFromServer, addLike, delLike } from "./api";
-import { deletePopup } from "./const.js";
-import { closeModal } from "./modal.js";
-import { saveLoading, openDeletePopup } from "./index.js";
+import {deletedCardFromServer} from "./api";
+import {deletePopup} from "./const.js";
+import {closeModal} from "./modal.js";
+import {saveLoading, openDeletePopup, handleLikeCard} from "./index.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -39,10 +39,7 @@ function createCard(
   deleteButton.addEventListener("click", () =>
     openDeletePopup(cardElement, cardId)
   );
-  // likeButton.addEventListener("click", () =>
-  //   toggleCardLike(likeButton, cardId, likeCount)
-  // );
-  likeButton.addEventListener("click", () => handleLikeCard(checkStatusLike));
+  likeButton.addEventListener("click", () => checkStatusLike(likeButton, cardId));
   cardImage.addEventListener("click", () => onImageClick(cardImage));
 
   return cardElement;
@@ -63,26 +60,17 @@ function deleteCard(cardElement, cardId) {
       saveLoading(false, deletePopup);
     });
 }
-function checkStatusLike() {
-  console.log('checkStatusLike', likeButton.classList.contains("card__like-button_is-active"));
-  return likeButton.classList.contains("card__like-button_is-active");
+
+function checkStatusLike(likeButton, cardId, likeCount) {
+  const isLiked = likeButton.classList.contains("card__like-button_is-active");
+  handleLikeCard(isLiked, cardId, likeCount, likeButton)
 }
-function changeLike() {
-  likeCount = res.likes.length;
+
+function changeLike(res) {
+  const likeCount = document.querySelector(".card__like-counter");
+  likeCount.textContent = res.likes.length;
+  const likeButton = document.querySelector('.card__like-button');
   likeButton.classList.toggle("card__like-button_is-active");
 }
-// function toggleCardLike(likeButton, cardId, likeCount) {
-//   const isLiked = likeButton.classList.contains("card__like-button_is-active")
-//     ? delLike
-//     : addLike;
-//   isLiked(cardId)
-//     .then((res) => {
-//       likeCount = res.likes.length;
-//       likeButton.classList.toggle("card__like-button_is-active");
-//     })
-//     .catch((error) => {
-//       console.log("Произошла ошибка:", error);
-//     });
-// }
 
-export { createCard, deleteCard, changeLike };
+export {createCard, deleteCard, changeLike};

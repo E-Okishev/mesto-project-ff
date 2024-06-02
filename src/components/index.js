@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import { createCard, deleteCard, changeLike } from "./card.js";
+import {createCard, deleteCard, changeLike} from "./card.js";
 import {
   openModal,
   closeModal,
@@ -30,8 +30,8 @@ import {
   deleteForm,
   validationConfig,
 } from "./const.js";
-import { enableValidation, clearValidation } from "./validation.js";
-import { fetchData, user, createNewCard, addLike, delLike } from "./api.js";
+import {enableValidation, clearValidation} from "./validation.js";
+import {fetchData, user, createNewCard, addLike, delLike} from "./api.js";
 import {
   handleProfileFormSubmit,
   handleEditAvatarForm,
@@ -105,7 +105,7 @@ function handleNewCardFormSubmit(evt) {
     .finally(() => {
       saveLoading(false, createNewCardPopup);
     });
-  }
+}
 
 // Получаем данные о профиле и карточках и отоображаем на странице полученные карточки
 
@@ -160,18 +160,18 @@ deleteForm.addEventListener("submit", function (evt) {
   deleteCard(tempCardElement, tempCardId);
 });
 
-function handleLikeCard(status) {
+function handleLikeCard(status, cardId) {
   !status
-    ? addLike()
-        .then((res) => changeLike())
-        .catch((error) => {
-          console.log("Произошла ошибка:", error);
-        })
-    : delLike()
-        .then((res) => changeLike())
-        .catch((error) => {
-          console.log("Произошла ошибка:", error);
-        });
+    ? addLike(cardId)
+      .then((res) => changeLike(res))
+      .catch((error) => {
+        console.log("Произошла ошибка:", error);
+      })
+    : delLike(cardId)
+      .then((res) => changeLike(res))
+      .catch((error) => {
+        console.log("Произошла ошибка:", error);
+      });
 }
 
-export { saveLoading, openDeletePopup, handleLikeCard };
+export {saveLoading, openDeletePopup, handleLikeCard};
