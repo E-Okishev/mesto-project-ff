@@ -1,8 +1,8 @@
 const cardsContainer = document.querySelector(".places__list");
 
 const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
-const createNewCardBtn = document.querySelector(".profile__add-button");
-const updateAvatarBtn = document.querySelector(".profile__image");
+const buttonOpenPopupNewCard = document.querySelector(".profile__add-button");
+const buttonOpenPopupAvatar = document.querySelector(".profile__image");
 
 const editProfilePopup = document.querySelector(".popup_type_edit");
 const createNewCardPopup = document.querySelector(".popup_type_new-card");
@@ -17,7 +17,7 @@ const popupList = [
   deletePopup,
 ];
 
-const popupImage = imagePopup.querySelector(".popup__image"); // Изображение в модалке
+const popupFullImage = imagePopup.querySelector(".popup__image"); // Изображение в модалке
 const popupCaption = imagePopup.querySelector(".popup__caption"); // Подпись под картинкой в модалке
 
 const profileTitle = document.querySelector(".profile__title");
@@ -51,8 +51,8 @@ export {
   cardsContainer,
   buttonOpenPopupProfile,
   editProfilePopup,
-  createNewCardBtn,
-  updateAvatarBtn,
+  buttonOpenPopupNewCard,
+  buttonOpenPopupAvatar,
   createNewCardPopup,
   imagePopup,
   updateAvatarPopup,
@@ -64,7 +64,7 @@ export {
   cardNameInput,
   cardUrlInput,
   avatarInput,
-  popupImage,
+  popupFullImage,
   popupCaption,
   popupList,
   editProfileForm,

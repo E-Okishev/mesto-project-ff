@@ -1,6 +1,6 @@
 import {
   editProfilePopup,
-  updateAvatarBtn,
+  buttonOpenPopupAvatar,
   updateAvatarPopup,
   profileTitle,
   profileDescription,
@@ -43,7 +43,7 @@ function handleEditAvatarForm(evt) {
 
   updateAvatar(avatarInput.value)
     .then((data) => {
-      updateAvatarBtn.style.backgroundImage = `url('${data.avatar}')`;
+      buttonOpenPopupAvatar.style.backgroundImage = `url('${data.avatar}')`;
       closeModal(updateAvatarPopup);
       evt.target.reset()
     })

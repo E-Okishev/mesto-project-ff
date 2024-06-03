@@ -9,8 +9,8 @@ import {
   cardsContainer,
   buttonOpenPopupProfile,
   editProfilePopup,
-  createNewCardBtn,
-  updateAvatarBtn,
+  buttonOpenPopupNewCard,
+  buttonOpenPopupAvatar,
   createNewCardPopup,
   imagePopup,
   updateAvatarPopup,
@@ -21,7 +21,7 @@ import {
   jobInput,
   cardNameInput,
   cardUrlInput,
-  popupImage,
+  popupFullImage,
   popupCaption,
   popupList,
   editProfileForm,
@@ -45,8 +45,8 @@ setCloseModalByClickListeners(popupList);
 
 // функция подставляет в открытую модалку фотографию
 function onImageClick(image) {
-  popupImage.src = image.src;
-  popupImage.alt = image.alt;
+  popupFullImage.src = image.src;
+  popupFullImage.alt = image.alt;
   popupCaption.textContent = image.alt;
   openModal(imagePopup);
 }
@@ -61,12 +61,12 @@ buttonOpenPopupProfile.addEventListener("click", () => {
   jobInput.value = profileDescription.textContent;
 });
 // окно добавления карточки
-createNewCardBtn.addEventListener("click", () => {
+buttonOpenPopupNewCard.addEventListener("click", () => {
   openModal(createNewCardPopup);
   clearValidation(newPlaceForm, validationConfig);
 });
 // окно редактирования аватара
-updateAvatarBtn.addEventListener("click", () => {
+buttonOpenPopupAvatar.addEventListener("click", () => {
   openModal(updateAvatarPopup);
   clearValidation(updateAvatarForm, validationConfig);
 });
@@ -112,7 +112,7 @@ Promise.all([user(), fetchData()])
   .then(([userData, cardsData]) => {
     profileTitle.textContent = userData.name;
     profileDescription.textContent = userData.about;
-    updateAvatarBtn.style.backgroundImage = `url('${userData.avatar}')`;
+    buttonOpenPopupAvatar.style.backgroundImage = `url('${userData.avatar}')`;
     userId = userData._id;
 
     cardsData.forEach((cardData) => {
