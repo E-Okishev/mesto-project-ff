@@ -23,19 +23,15 @@ const popupCaption = popupImage.querySelector(".popup__caption"); // Подпи�
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_description");
-const cardNameInput = document.querySelector(".popup__input_type_card-name");
-const cardUrlInput = document.querySelector(".popup__input_type_url");
-const avatarInput = document.querySelector(".popup__input_avatar");
+const inputName = document.querySelector(".popup__input_type_name");
+const inputJob = document.querySelector(".popup__input_type_description");
+const inputCardName = document.querySelector(".popup__input_type_card-name");
+const inputCardUrl = document.querySelector(".popup__input_type_url");
+const inputAvatar = document.querySelector(".popup__input_avatar");
 
-const editProfileForm = document.querySelector(
-  '.popup__form[name="edit-profile"]'
-);
+const editProfileForm = document.querySelector('.popup__form[name="edit-profile"]');
 const newPlaceForm = document.querySelector('.popup__form[name="new-place"]');
-const updateAvatarForm = document.querySelector(
-  '.popup__form[name="update-avatar"]'
-);
+const updateAvatarForm = document.querySelector('.popup__form[name="update-avatar"]');
 const deleteForm = document.querySelector('.popup__form[name="delete-card"]');
 
 const validationConfig = {
@@ -59,11 +55,11 @@ export {
   popupDelete,
   profileTitle,
   profileDescription,
-  nameInput,
-  jobInput,
-  cardNameInput,
-  cardUrlInput,
-  avatarInput,
+  inputName,
+  inputJob,
+  inputCardName,
+  inputCardUrl,
+  inputAvatar,
   popupFullImage,
   popupCaption,
   popupList,

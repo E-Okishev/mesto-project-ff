@@ -17,10 +17,10 @@ import {
   popupDelete,
   profileTitle,
   profileDescription,
-  nameInput,
-  jobInput,
-  cardNameInput,
-  cardUrlInput,
+  inputName,
+  inputJob,
+  inputCardName,
+  inputCardUrl,
   popupFullImage,
   popupCaption,
   popupList,
@@ -57,8 +57,8 @@ buttonOpenPopupProfile.addEventListener("click", () => {
   // Подставляем в инпуты текущее имя и описание профиля
   openModal(popupProfile);
   clearValidation(editProfileForm, validationConfig);
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileDescription.textContent;
+  inputName.value = profileTitle.textContent;
+  inputJob.value = profileDescription.textContent;
 });
 // окно добавления карточки
 buttonOpenPopupNewCard.addEventListener("click", () => {
@@ -78,8 +78,8 @@ function handleNewCardFormSubmit(evt) {
   saveLoading(true, popupNewCard);
 
   createNewCard({
-    name: cardNameInput.value,
-    link: cardUrlInput.value,
+    name: inputCardName.value,
+    link: inputCardUrl.value,
   })
     .then((newItem) => {
       cardsContainer.prepend(

@@ -4,9 +4,9 @@ import {
   popupAvatar,
   profileTitle,
   profileDescription,
-  nameInput,
-  jobInput,
-  avatarInput,
+  inputName,
+  inputJob,
+  inputAvatar,
 } from "./const.js";
 import {saveLoading} from "./index.js";
 import {updateProfile, updateAvatar} from "./api.js";
@@ -19,12 +19,12 @@ function handleProfileFormSubmit(evt) {
   saveLoading(true, popupProfile);
 
   updateProfile({
-    name: nameInput.value,
-    about: jobInput.value,
+    name: inputName.value,
+    about: inputJob.value,
   })
     .then(() => {
-      profileTitle.textContent = nameInput.value;
-      profileDescription.textContent = jobInput.value;
+      profileTitle.textContent = inputName.value;
+      profileDescription.textContent = inputJob.value;
       closeModal(popupProfile);
     })
     .catch((error) => {
@@ -41,7 +41,7 @@ function handleEditAvatarForm(evt) {
   evt.preventDefault();
   saveLoading(true, popupAvatar);
 
-  updateAvatar(avatarInput.value)
+  updateAvatar(inputAvatar.value)
     .then((data) => {
       buttonOpenPopupAvatar.style.backgroundImage = `url('${data.avatar}')`;
       closeModal(popupAvatar);
