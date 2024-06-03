@@ -8,13 +8,13 @@ import {
 import {
   cardsContainer,
   buttonOpenPopupProfile,
-  editProfilePopup,
+  popupProfile,
   buttonOpenPopupNewCard,
   buttonOpenPopupAvatar,
-  createNewCardPopup,
-  imagePopup,
-  updateAvatarPopup,
-  deletePopup,
+  popupNewCard,
+  popupImage,
+  popupAvatar,
+  popupDelete,
   profileTitle,
   profileDescription,
   nameInput,
@@ -48,26 +48,26 @@ function onImageClick(image) {
   popupFullImage.src = image.src;
   popupFullImage.alt = image.alt;
   popupCaption.textContent = image.alt;
-  openModal(imagePopup);
+  openModal(popupImage);
 }
 
 // вешаем обработчики на:
 // окно редактирования имени профили
 buttonOpenPopupProfile.addEventListener("click", () => {
   // Подставляем в инпуты текущее имя и описание профиля
-  openModal(editProfilePopup);
+  openModal(popupProfile);
   clearValidation(editProfileForm, validationConfig);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 });
 // окно добавления карточки
 buttonOpenPopupNewCard.addEventListener("click", () => {
-  openModal(createNewCardPopup);
+  openModal(popupNewCard);
   clearValidation(newPlaceForm, validationConfig);
 });
 // окно редактирования аватара
 buttonOpenPopupAvatar.addEventListener("click", () => {
-  openModal(updateAvatarPopup);
+  openModal(popupAvatar);
   clearValidation(updateAvatarForm, validationConfig);
 });
 
@@ -75,7 +75,7 @@ buttonOpenPopupAvatar.addEventListener("click", () => {
 
 function handleNewCardFormSubmit(evt) {
   evt.preventDefault();
-  saveLoading(true, createNewCardPopup);
+  saveLoading(true, popupNewCard);
 
   createNewCard({
     name: cardNameInput.value,
@@ -95,14 +95,14 @@ function handleNewCardFormSubmit(evt) {
       );
     })
     .then(() => {
-      closeModal(createNewCardPopup);
+      closeModal(popupNewCard);
       evt.target.reset();
     })
     .catch((error) => {
       console.log("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, createNewCardPopup);
+      saveLoading(false, popupNewCard);
     });
 }
 
@@ -133,8 +133,8 @@ Promise.all([user(), fetchData()])
     console.log("Произошла ошибка:", error);
   });
 
-editProfilePopup.addEventListener("submit", handleProfileFormSubmit);
-createNewCardPopup.addEventListener("submit", handleNewCardFormSubmit);
+popupProfile.addEventListener("submit", handleProfileFormSubmit);
+popupNewCard.addEventListener("submit", handleNewCardFormSubmit);
 updateAvatarForm.addEventListener("submit", handleEditAvatarForm);
 enableValidation(validationConfig);
 
@@ -147,8 +147,8 @@ function saveLoading(isLoading, popupElement) {
   }
 }
 
-function openDeletePopup(cardElement, cardId) {
-  openModal(deletePopup);
+function openPopupDelete(cardElement, cardId) {
+  openModal(popupDelete);
   tempCardElement = cardElement;
   tempCardId = cardId;
 }
@@ -172,4 +172,4 @@ function handleLikeCard(status, likeButton, likeCount, cardId) {
       });
 }
 
-export {saveLoading, openDeletePopup, handleLikeCard};
+export {saveLoading, openPopupDelete, handleLikeCard};

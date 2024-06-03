@@ -1,7 +1,7 @@
 import {
-  editProfilePopup,
+  popupProfile,
   buttonOpenPopupAvatar,
-  updateAvatarPopup,
+  popupAvatar,
   profileTitle,
   profileDescription,
   nameInput,
@@ -16,7 +16,7 @@ import {closeModal} from "./modal.js";
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  saveLoading(true, editProfilePopup);
+  saveLoading(true, popupProfile);
 
   updateProfile({
     name: nameInput.value,
@@ -25,13 +25,13 @@ function handleProfileFormSubmit(evt) {
     .then(() => {
       profileTitle.textContent = nameInput.value;
       profileDescription.textContent = jobInput.value;
-      closeModal(editProfilePopup);
+      closeModal(popupProfile);
     })
     .catch((error) => {
       console.error("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, editProfilePopup);
+      saveLoading(false, popupProfile);
     });
 }
 
@@ -39,19 +39,19 @@ function handleProfileFormSubmit(evt) {
 
 function handleEditAvatarForm(evt) {
   evt.preventDefault();
-  saveLoading(true, updateAvatarPopup);
+  saveLoading(true, popupAvatar);
 
   updateAvatar(avatarInput.value)
     .then((data) => {
       buttonOpenPopupAvatar.style.backgroundImage = `url('${data.avatar}')`;
-      closeModal(updateAvatarPopup);
+      closeModal(popupAvatar);
       evt.target.reset()
     })
     .catch((error) => {
       console.error("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, updateAvatarPopup);
+      saveLoading(false, popupAvatar);
     });
 }
 

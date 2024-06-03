@@ -1,7 +1,7 @@
 import {deletedCardFromServer} from "./api";
-import {deletePopup} from "./const.js";
+import {popupDelete} from "./const.js";
 import {closeModal} from "./modal.js";
-import {saveLoading, openDeletePopup, handleLikeCard} from "./index.js";
+import {saveLoading, openPopupDelete, handleLikeCard} from "./index.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -36,7 +36,7 @@ function createCard(
   }
 
   deleteButton.addEventListener("click", () =>
-    openDeletePopup(cardElement, cardId)
+    openPopupDelete(cardElement, cardId)
   );
   likeButton.addEventListener("click", () =>
     checkStatusLike(likeButton, likeCount, cardId)
@@ -47,18 +47,18 @@ function createCard(
 }
 
 function deleteCard(cardElement, cardId) {
-  saveLoading(true, deletePopup);
+  saveLoading(true, popupDelete);
 
   deletedCardFromServer(cardId)
     .then(() => {
       cardElement.remove();
-      closeModal(deletePopup);
+      closeModal(popupDelete);
     })
     .catch((error) => {
       console.log("Произошла ошибка:", error);
     })
     .finally(() => {
-      saveLoading(false, deletePopup);
+      saveLoading(false, popupDelete);
     });
 }
 

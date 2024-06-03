@@ -4,21 +4,21 @@ const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
 const buttonOpenPopupNewCard = document.querySelector(".profile__add-button");
 const buttonOpenPopupAvatar = document.querySelector(".profile__image");
 
-const editProfilePopup = document.querySelector(".popup_type_edit");
-const createNewCardPopup = document.querySelector(".popup_type_new-card");
-const imagePopup = document.querySelector(".popup_type_image");
-const updateAvatarPopup = document.querySelector(".popup_type_update-avatar");
-const deletePopup = document.querySelector(".popup_type_confirm-delete");
+const popupProfile = document.querySelector(".popup_type_edit");
+const popupNewCard = document.querySelector(".popup_type_new-card");
+const popupImage = document.querySelector(".popup_type_image");
+const popupAvatar = document.querySelector(".popup_type_update-avatar");
+const popupDelete = document.querySelector(".popup_type_confirm-delete");
 const popupList = [
-  editProfilePopup,
-  createNewCardPopup,
-  imagePopup,
-  updateAvatarPopup,
-  deletePopup,
+  popupProfile,
+  popupNewCard,
+  popupImage,
+  popupAvatar,
+  popupDelete,
 ];
 
-const popupFullImage = imagePopup.querySelector(".popup__image"); // Изображение в модалке
-const popupCaption = imagePopup.querySelector(".popup__caption"); // Подпись под картинкой в модалке
+const popupFullImage = popupImage.querySelector(".popup__image"); // Изображение в модалке
+const popupCaption = popupImage.querySelector(".popup__caption"); // Подпись под картинкой в модалке
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -50,13 +50,13 @@ const validationConfig = {
 export {
   cardsContainer,
   buttonOpenPopupProfile,
-  editProfilePopup,
+  popupProfile,
   buttonOpenPopupNewCard,
   buttonOpenPopupAvatar,
-  createNewCardPopup,
-  imagePopup,
-  updateAvatarPopup,
-  deletePopup,
+  popupNewCard,
+  popupImage,
+  popupAvatar,
+  popupDelete,
   profileTitle,
   profileDescription,
   nameInput,
