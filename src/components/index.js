@@ -89,7 +89,6 @@ function handleNewCardFormSubmit(evt) {
           newItem.likes,
           newItem.owner._id,
           newItem._id,
-          handleLikeCard,
           onImageClick,
           userId
         )
@@ -124,7 +123,6 @@ Promise.all([user(), fetchData()])
           cardData.likes,
           cardData.owner._id,
           cardData._id,
-          handleLikeCard,
           onImageClick,
           userId
         )

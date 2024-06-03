@@ -11,7 +11,6 @@ function createCard(
   likes,
   ownerId,
   cardId,
-  handleLikeCard,
   onImageClick,
   userId
 ) {
