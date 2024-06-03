@@ -29,10 +29,14 @@ const inputCardName = document.querySelector(".popup__input_type_card-name");
 const inputCardUrl = document.querySelector(".popup__input_type_url");
 const inputAvatar = document.querySelector(".popup__input_avatar");
 
-const editProfileForm = document.querySelector('.popup__form[name="edit-profile"]');
-const newPlaceForm = document.querySelector('.popup__form[name="new-place"]');
-const updateAvatarForm = document.querySelector('.popup__form[name="update-avatar"]');
-const deleteForm = document.querySelector('.popup__form[name="delete-card"]');
+const formEditProfile = document.querySelector(
+  '.popup__form[name="edit-profile"]'
+);
+const formNewPlace = document.querySelector('.popup__form[name="new-place"]');
+const formUpdateAvatar = document.querySelector(
+  '.popup__form[name="update-avatar"]'
+);
+const formDelete = document.querySelector('.popup__form[name="delete-card"]');
 
 const validationConfig = {
   formSelector: ".popup__form",
@@ -46,13 +50,16 @@ const validationConfig = {
 export {
   cardsContainer,
   buttonOpenPopupProfile,
-  popupProfile,
   buttonOpenPopupNewCard,
   buttonOpenPopupAvatar,
+  popupProfile,
   popupNewCard,
   popupImage,
   popupAvatar,
   popupDelete,
+  popupList,
+  popupFullImage,
+  popupCaption,
   profileTitle,
   profileDescription,
   inputName,
@@ -60,12 +67,9 @@ export {
   inputCardName,
   inputCardUrl,
   inputAvatar,
-  popupFullImage,
-  popupCaption,
-  popupList,
-  editProfileForm,
-  newPlaceForm,
-  updateAvatarForm,
-  deleteForm,
+  formEditProfile,
+  formNewPlace,
+  formUpdateAvatar,
+  formDelete,
   validationConfig,
 };

@@ -8,26 +8,26 @@ import {
 import {
   cardsContainer,
   buttonOpenPopupProfile,
-  popupProfile,
   buttonOpenPopupNewCard,
   buttonOpenPopupAvatar,
+  popupProfile,
   popupNewCard,
   popupImage,
   popupAvatar,
   popupDelete,
+  popupList,
+  popupFullImage,
+  popupCaption,
   profileTitle,
   profileDescription,
   inputName,
   inputJob,
   inputCardName,
   inputCardUrl,
-  popupFullImage,
-  popupCaption,
-  popupList,
-  editProfileForm,
-  newPlaceForm,
-  updateAvatarForm,
-  deleteForm,
+  formEditProfile,
+  formNewPlace,
+  formUpdateAvatar,
+  formDelete,
   validationConfig,
 } from "./const.js";
 import {enableValidation, clearValidation} from "./validation.js";
@@ -56,19 +56,19 @@ function onImageClick(image) {
 buttonOpenPopupProfile.addEventListener("click", () => {
   // Подставляем в инпуты текущее имя и описание профиля
   openModal(popupProfile);
-  clearValidation(editProfileForm, validationConfig);
+  clearValidation(formEditProfile, validationConfig);
   inputName.value = profileTitle.textContent;
   inputJob.value = profileDescription.textContent;
 });
 // окно добавления карточки
 buttonOpenPopupNewCard.addEventListener("click", () => {
   openModal(popupNewCard);
-  clearValidation(newPlaceForm, validationConfig);
+  clearValidation(formNewPlace, validationConfig);
 });
 // окно редактирования аватара
 buttonOpenPopupAvatar.addEventListener("click", () => {
   openModal(popupAvatar);
-  clearValidation(updateAvatarForm, validationConfig);
+  clearValidation(formUpdateAvatar, validationConfig);
 });
 
 // Создаем новую карточку и отображаем её вверху списка карточек
@@ -135,7 +135,7 @@ Promise.all([user(), fetchData()])
 
 popupProfile.addEventListener("submit", handleProfileFormSubmit);
 popupNewCard.addEventListener("submit", handleNewCardFormSubmit);
-updateAvatarForm.addEventListener("submit", handleEditAvatarForm);
+formUpdateAvatar.addEventListener("submit", handleEditAvatarForm);
 enableValidation(validationConfig);
 
 function saveLoading(isLoading, popupElement) {
@@ -153,7 +153,7 @@ function openPopupDelete(cardElement, cardId) {
   tempCardId = cardId;
 }
 
-deleteForm.addEventListener("submit", function (evt) {
+formDelete.addEventListener("submit", function (evt) {
   evt.preventDefault();
   deleteCard(tempCardElement, tempCardId);
 });
