@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import {createCard, deleteCard, changeLike} from "./card.js";
+import {createCard, changeLike} from "./card.js";
 import {
   openModal,
   closeModal,
@@ -31,7 +31,7 @@ import {
   validationConfig,
 } from "./const.js";
 import {enableValidation, clearValidation} from "./validation.js";
-import {fetchData, user, createNewCard, addLike, delLike} from "./api.js";
+import {fetchData, user, createNewCard, addLike, delLike, deletedCardFromServer} from "./api.js";
 import {
   handleProfileFormSubmit,
   handleEditAvatarForm,
@@ -157,6 +157,22 @@ formDelete.addEventListener("submit", function (evt) {
   evt.preventDefault();
   deleteCard(tempCardElement, tempCardId);
 });
+
+function deleteCard(cardElement, cardId) {
+  saveLoading(true, popupDelete);
+
+  deletedCardFromServer(cardId)
+    .then(() => {
+      cardElement.remove();
+      closeModal(popupDelete);
+    })
+    .catch((error) => {
+      console.log("Произошла ошибка:", error);
+    })
+    .finally(() => {
+      saveLoading(false, popupDelete);
+    });
+}
 
 function handleLikeCard(status, likeButton, likeCount, cardId) {
   !status

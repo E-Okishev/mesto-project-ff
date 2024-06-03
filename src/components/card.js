@@ -1,7 +1,4 @@
-import {deletedCardFromServer} from "./api";
-import {popupDelete} from "./const.js";
-import {closeModal} from "./modal.js";
-import {saveLoading, openPopupDelete, handleLikeCard} from "./index.js";
+import {openPopupDelete, handleLikeCard} from "./index.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -46,22 +43,6 @@ function createCard(
   return cardElement;
 }
 
-function deleteCard(cardElement, cardId) {
-  saveLoading(true, popupDelete);
-
-  deletedCardFromServer(cardId)
-    .then(() => {
-      cardElement.remove();
-      closeModal(popupDelete);
-    })
-    .catch((error) => {
-      console.log("Произошла ошибка:", error);
-    })
-    .finally(() => {
-      saveLoading(false, popupDelete);
-    });
-}
-
 function checkStatusLike(likeButton, likeCount, cardId) {
   const isLiked = likeButton.classList.contains("card__like-button_is-active");
   handleLikeCard(isLiked, likeButton, likeCount, cardId)
@@ -72,4 +53,4 @@ function changeLike(res, likeButton, likeCount) {
   likeButton.classList.toggle("card__like-button_is-active");
 }
 
-export {createCard, deleteCard, changeLike};
+export {createCard, changeLike};
